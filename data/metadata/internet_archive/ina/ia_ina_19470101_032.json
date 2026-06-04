@@ -1,0 +1,69 @@
+{
+  "doc_id": "ia_ina_19470101_032",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/dli.bengal.10689.12839",
+  "title": "INDIAN INDEPENCE MOVEMENT IN EAST ASIA",
+  "date": "1947-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Abbyy GZ",
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "Scandata",
+    "Single Page Processed JP2 ZIP"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "dli.bengal.10689.12839",
+  "creator": [
+    "GIANI, KESAR SINGH"
+  ],
+  "subject": [
+    "West Bengal Public Library"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "digitallibraryindia",
+    "JaiGyan",
+    "fav-ana_fatima",
+    "fav-harleeno"
+  ],
+  "description": "Source: West Bengal Public Library Network Source Identifier: handle/10689/12839 Field Value Lang dc.contributor.author GIANI, KESAR SINGH - dc.date.accessioned 2013-10-05T09:37:11Z - dc.date.available 2013-10-05T09:37:11Z - dc.date.issued 1947 - dc.identifier.uri http://hdl.handle.net/10689/12839 - dc.language.iso en_US en_US dc.publisher SINGH BROTHERS,LAHORE en_US dc.source UTTARPARA JAYKRISHNA PUBLIC LIBRARY, HOOGHLY en_US dc.subject HISTORY en_US dc.subject INDIAN HISTORY en_US dc.subject MODERN INDIAN HISTORY en_US dc.title INDIAN INDEPENCE MOVEMENT IN EAST ASIA en_US dc.title.alternative THE MOST AUTHENTIC ACCOUNT OF THE I.N.A. AND THE AZAD HIND GOVERNMENT en_US dc.type Book en_US dc.scl.scanningcentre C-DAC KOLKATA en_US dc.scl.scanningnumber U.J.P.L._04 en_US dc.scl.digitalrepublisher DteLS en_US dc.scl.digitalpublicationdate 2011-11-03 - dc.scl.totalpages 372 en_US dc.scl.Keywords TOKYO CONFERENCE en_US dc.scl.Keywords WAR IN EAST ASIA en_US dc.scl.Keywords FUTURE OF INDIA en_US dc.scl.Keywords INDO JAPANESE RELATIONS en_US dc.scl.Keywords SINGAPORE CONFERENCE en_US dc.scl.Keywords BURMA INCIDENTS PRECIPITATE en_US dc.scl.Keywords SUBHASH BOSE IN JAPAN en_US dc.scl.Keywords THE STAGE IS SET en_US dc.scl.Keywords NETAJI WEEK CELEBRATION en_US dc.scl.Keywords THE AFTER EFFECTS en_US dc.scl.Keywords THE TRIAL OFV THE I.N.A. en_US dc.scl.Keywords BROADCAST TO THE EAST ASIA INDIANS en_US dc.scl.Keywords STATEMENT IN A PRESS CONFERENCE en_US dc.scl.Keywords SUBHASH BECOMES SUPREME COMMANDER en_US dc.scl.Keywords SPEECH AT KUALA LUMPUR en_US dc.scl.Keywords INDIAN NATIONAL ARMY RE-ORGANIZATION en_US",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/dli.bengal.10689.12839",
+  "metadata_url": "https://archive.org/metadata/dli.bengal.10689.12839",
+  "download_base_url": "https://archive.org/download/dli.bengal.10689.12839",
+  "file_urls": [
+    "https://archive.org/download/dli.bengal.10689.12839/10689.12839_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "10689.12839_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "936782",
+      "md5": "ce8b65058ff59ee9f8ff37a1f6db36c3",
+      "sha1": "973eb4d64869524d42dae0ad4d608853147587bb",
+      "mtime": "1537907960",
+      "download_url": "https://archive.org/download/dli.bengal.10689.12839/10689.12839_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:49.218209+00:00",
+  "notes": ""
+}

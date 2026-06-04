@@ -1,0 +1,72 @@
+{
+  "doc_id": "ia_ina_19910912_018",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/eparlib.nic.in.17886",
+  "title": "Freedom Fighters Pension to Soldiers and Officers of Indian National Army (12-Sep-1991)",
+  "date": "1991-09-12T00:00:00Z",
+  "language_original": "English",
+  "language_detected": null,
+  "format": [
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "eparlib.nic.in.17886",
+  "creator": [
+    "Lok Sabha Secretariat"
+  ],
+  "subject": [
+    "Parliament of India",
+    "Lok Sabha"
+  ],
+  "language_all": [
+    "English",
+    "Hindi"
+  ],
+  "collection": [
+    "legislaturesofindia",
+    "government-documents"
+  ],
+  "description": "'Freedom Fighters Pension to Soldiers and Officers of Indian National Army (12-Sep-1991)' from the Parliament Digital Library",
+  "licenseurl": "http://creativecommons.org/licenses/publicdomain/",
+  "source_url": "https://archive.org/details/eparlib.nic.in.17886",
+  "metadata_url": "https://archive.org/metadata/eparlib.nic.in.17886",
+  "download_base_url": "https://archive.org/download/eparlib.nic.in.17886",
+  "file_urls": [
+    "https://archive.org/download/eparlib.nic.in.17886/10_I_12091991_p128_p128_t143_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "10_I_12091991_p128_p128_t143_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "2750",
+      "md5": "8e4c96c7d6093c7288324337fedfe754",
+      "sha1": "1fddb632631fd41073908d89a5e5b1562ae20b2f",
+      "mtime": "1752451789",
+      "download_url": "https://archive.org/download/eparlib.nic.in.17886/10_I_12091991_p128_p128_t143_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:09.641725+00:00",
+  "notes": ""
+}

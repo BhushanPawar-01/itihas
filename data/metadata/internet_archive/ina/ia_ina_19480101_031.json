@@ -1,0 +1,75 @@
+{
+  "doc_id": "ia_ina_19480101_031",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/in.gov.ignca.2176",
+  "title": "Netaji’s life and writings Pt_1",
+  "date": "1948-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Abbyy GZ",
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "Scandata",
+    "Single Page Processed JP2 ZIP"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "in.gov.ignca.2176",
+  "creator": [
+    "Bose, Subhas Chandra"
+  ],
+  "subject": [
+    "Archeological Survey",
+    "India, Biography",
+    "Freedom fighter, India",
+    "Indian National Army"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "digitallibraryindia",
+    "JaiGyan",
+    "fav-anindyo_ghosal",
+    "fav-drishtikone",
+    "fav-saisivaraju",
+    "fav-v_maity",
+    "fav-vivekink"
+  ],
+  "description": "Book from the Archaeological Survey of India Central Archaeological Library, New Delhi Book Number: 2176 Book Title: Netaji’s life and writings Pt_1 Book Author: Bose, Subhas Chandra Book Language: English Number of Pages: 164 Publisher: Thacker, Spink; Calcutta; 1948 Subject: India, Biography; Freedom fighter, India; Indian National Army Source URL: http://asi.nic.in/asi_books/2176.pdf Year: 1948",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/in.gov.ignca.2176",
+  "metadata_url": "https://archive.org/metadata/in.gov.ignca.2176",
+  "download_base_url": "https://archive.org/download/in.gov.ignca.2176",
+  "file_urls": [
+    "https://archive.org/download/in.gov.ignca.2176/2176_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "2176_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "265605",
+      "md5": "d99579cb7bce9825703905e3c6cd259a",
+      "sha1": "271f8ff5f63e68159da989a8e020516a421c5352",
+      "mtime": "1509846891",
+      "download_url": "https://archive.org/download/in.gov.ignca.2176/2176_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:47.143485+00:00",
+  "notes": ""
+}

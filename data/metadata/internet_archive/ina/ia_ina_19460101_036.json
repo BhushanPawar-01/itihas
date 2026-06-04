@@ -1,0 +1,83 @@
+{
+  "doc_id": "ia_ina_19460101_036",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/chalodelhihistor00tase",
+  "title": "Chalo Delhi : an historical account of the Indian independence movement in East Asia",
+  "date": "1946-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Archive BitTorrent",
+    "Cloth Cover Detection Log",
+    "DjVuTXT",
+    "Djvu XML",
+    "Dublin Core",
+    "Item Tile",
+    "JSON",
+    "Log",
+    "MARC",
+    "MARC Binary",
+    "MARC Source",
+    "Metadata",
+    "Metadata Log",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Original JP2 Tar",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "chalodelhihistor00tase",
+  "creator": [
+    "Tās, Es. Ē"
+  ],
+  "subject": [
+    "Indian National Army",
+    "World War, 1939-1945 -- India",
+    "Provisional Government of Free India"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "duldiversity",
+    "duke_libraries",
+    "americana",
+    "fav-ramap"
+  ],
+  "description": "[5], 224 p., [1] leaf of plates : 21 cm",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/chalodelhihistor00tase",
+  "metadata_url": "https://archive.org/metadata/chalodelhihistor00tase",
+  "download_base_url": "https://archive.org/download/chalodelhihistor00tase",
+  "file_urls": [
+    "https://archive.org/download/chalodelhihistor00tase/chalodelhihistor00tase_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "chalodelhihistor00tase_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "564366",
+      "md5": "dc63cf093e3e5a749cbd5cae65dc2a09",
+      "sha1": "add24f67a0bc333f6705743519d68fd8714af62c",
+      "mtime": "1680686899",
+      "download_url": "https://archive.org/download/chalodelhihistor00tase/chalodelhihistor00tase_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:59.315171+00:00",
+  "notes": ""
+}

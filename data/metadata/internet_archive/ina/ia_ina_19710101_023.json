@@ -1,0 +1,78 @@
+{
+  "doc_id": "ia_ina_19710101_023",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/jungleallianceja0000joyc",
+  "title": "Jungle alliance, Japan and the Indian National Army",
+  "date": "1971-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "ACS Encrypted PDF",
+    "DjVuTXT",
+    "Djvu XML",
+    "EPUB",
+    "Item Tile",
+    "JPEG Thumb",
+    "LCP Encrypted EPUB",
+    "LCP Encrypted PDF",
+    "Log",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "PNG",
+    "Page Numbers JSON",
+    "RePublisher Initial Processing Log",
+    "Scandata",
+    "Single Page Original JP2 Tar",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "jungleallianceja0000joyc",
+  "creator": [
+    "Joyce Lebra-Chapman"
+  ],
+  "subject": [],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "internetarchivebooks",
+    "printdisabled",
+    "inlibrary",
+    "fav-sergiomargarido"
+  ],
+  "description": "",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/jungleallianceja0000joyc",
+  "metadata_url": "https://archive.org/metadata/jungleallianceja0000joyc",
+  "download_base_url": "https://archive.org/download/jungleallianceja0000joyc",
+  "file_urls": [
+    "https://archive.org/download/jungleallianceja0000joyc/jungleallianceja0000joyc_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "jungleallianceja0000joyc_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "648115",
+      "md5": "c280e26a5f1c0cd1b3acc4202a1d16c4",
+      "sha1": "95d6f4736a25b1e6012d375dea643d8d8698bf1e",
+      "mtime": "1714047785",
+      "download_url": "https://archive.org/download/jungleallianceja0000joyc/jungleallianceja0000joyc_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:23.565353+00:00",
+  "notes": ""
+}

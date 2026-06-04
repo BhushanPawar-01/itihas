@@ -1,0 +1,77 @@
+{
+  "doc_id": "ia_ina_20220615_004",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/bose-of-japan-rash-behari-bose-the-father-of-the-indian-national-army-vol.1",
+  "title": "Bose of Japan: Rash Behari Bose The Father of the Indian National Army Vol.1",
+  "date": "2022-06-15T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "EPUB",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "bose-of-japan-rash-behari-bose-the-father-of-the-indian-national-army-vol.1",
+  "creator": [
+    "Lexi Kawabe"
+  ],
+  "subject": [
+    "Rash Behari Bose",
+    "Japan",
+    "Netaji Subhash Chandra Bose",
+    "Indian National Arny",
+    "Indian freedom struggle",
+    "Indian freedom movement",
+    "Indian Independence",
+    "Indian revolutionaries"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "opensource"
+  ],
+  "description": "On August 15, 1945, Tokyo had been reduced down to a tragic mass of scorched earth. From November 24, 1944 to August 15, 1945, the Allied Forces carried out at least 122 major air raids on Tokyo, destroying the city without mercy and indiscriminately killing all forms of life. While these horrifying events were unfolding, the health of an Indian freedom fighter began to deteriorate, and on January 21, 1945, he died of severe brain convulsions in the midst of senseless mass murder during a violent storm of air raids. That person's name was Rash Behari Bose. Although now almost completely forgotten, he was well known all throughout the world from 1912 to 1945. In Japan, he appeared in the media almost daily, and was deeply loved by the Japanese. He wrote eighteen books and at least fifty articles in Japanese, meanwhile delivering lectures all over Japan to build awareness of the Indian plight. Among the intellectuals of Japanese society, there were none who did not know of him, and the government of Japan praised his great achievements by bestowing upon him the Order of the Rising Sun, Gold and Silver Star. Rash Behari Bose was one of three Indians to be honored for their contributions to world peace and to Japan in the Greater East Asia War, the other two men being Radhabinod Pal and A.M. Nair, who were each awarded the Order of the Sacred Treasure. The Pal Judgment, which acquitted Japan in the Tokyo Tribunal, was achieved only through the combined efforts of these three figures, and it is impossible to discuss India-Japan relations without first gaining a deep understanding of Rash Behari Bose and the Indian independence movement that was occurring in Japan at that time. This is precisely what the present book focuses on – the independence movement in Japan at the time and place that Rash Behari Bose was living and carrying out his actions, bringing light to the influence of these events on Japan-India relations in the past, the present and the future, and demonstrating how they will eventually pave the way to world peace. The foundation of a strong and just Japan-India relationship is absolutely imperative for the establishment of global peace, and this is a fact that has remained unchanged since the days of Rash Behari Bose. As our responsibility to future generations, now more than ever, it is the time for us to truly understand Bose’s lifework and the Japan in which he lived. It is with this in mind that the present book has been written. The author of this book was born and raised in Japan, which had been distorted under the Allied occupation following the Greater East Asia War, and grew into an adult who had been taught to look down upon everything about Japan. She left Japan in her early twenties and have been living in the British Empire for almost half a century, taking pride in being a British scientist with a degree earned in Britain. It was only by reading the numerous works and publications left behind by Rash Behari Bose himself that the present author, who lived the vast majority of her life as a Westerner – even going so far as to abandon her own Japanese nationality and name – could at last free her mind from Eurocentric propaganda. As such, this book has been written on a foundation of ideas, experiences, and understanding that is not commonly held among present day Westerners, Japanese or Indians, but rather, the truths of the past that have until now remained largely unknown.",
+  "licenseurl": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+  "source_url": "https://archive.org/details/bose-of-japan-rash-behari-bose-the-father-of-the-indian-national-army-vol.1",
+  "metadata_url": "https://archive.org/metadata/bose-of-japan-rash-behari-bose-the-father-of-the-indian-national-army-vol.1",
+  "download_base_url": "https://archive.org/download/bose-of-japan-rash-behari-bose-the-father-of-the-indian-national-army-vol.1",
+  "file_urls": [
+    "https://archive.org/download/bose-of-japan-rash-behari-bose-the-father-of-the-indian-national-army-vol.1/Rash Behari Bose The Father of the Indian National Army, Vol. 1 (Eston Elizabeth, Lexi Kawabe) (z-library.sk, 1lib.sk, z-lib.sk) (1)_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "Rash Behari Bose The Father of the Indian National Army, Vol. 1 (Eston Elizabeth, Lexi Kawabe) (z-library.sk, 1lib.sk, z-lib.sk) (1)_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "142963",
+      "md5": "3759ffd262cecf69d19a08fffd9ca9a5",
+      "sha1": "fe6fbccfa9bf4842626e8bfb327ee3b34b670220",
+      "mtime": "1777603134",
+      "download_url": "https://archive.org/download/bose-of-japan-rash-behari-bose-the-father-of-the-indian-national-army-vol.1/Rash Behari Bose The Father of the Indian National Army, Vol. 1 (Eston Elizabeth, Lexi Kawabe) (z-library.sk, 1lib.sk, z-lib.sk) (1)_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:23:40.783254+00:00",
+  "notes": ""
+}

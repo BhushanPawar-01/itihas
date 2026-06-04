@@ -1,0 +1,73 @@
+{
+  "doc_id": "ia_ina_00000000_058",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/storyofthei.n.a.s.a.ayer",
+  "title": "STORY OF THE I. N. A.",
+  "date": "",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Abbyy GZ",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Item Tile",
+    "Metadata",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "storyofthei.n.a.s.a.ayer",
+  "creator": [
+    "S. A. AYER"
+  ],
+  "subject": [
+    "STORY OF THE I. N. A.",
+    "INDIAN NATIONAL ARMY",
+    "SUBHASH CHADRA BOSE",
+    "NATIONAL BOOK TRUST",
+    "1972",
+    "S. A. AYER"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "ArvindGupta",
+    "JaiGyan",
+    "fav-drishtikone",
+    "fav-vivekink"
+  ],
+  "description": "STORY OF THE I. N. A. , INDIAN NATIONAL ARMY, SUBHASH CHADRA BOSE, NATIONAL BOOK TRUST, 1972, S. A. AYER",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/storyofthei.n.a.s.a.ayer",
+  "metadata_url": "https://archive.org/metadata/storyofthei.n.a.s.a.ayer",
+  "download_base_url": "https://archive.org/download/storyofthei.n.a.s.a.ayer",
+  "file_urls": [
+    "https://archive.org/download/storyofthei.n.a.s.a.ayer/STORY OF THE I. N. A. -  S. A. AYER_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "STORY OF THE I. N. A. -  S. A. AYER_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "196678",
+      "md5": "9d241ff1a1b0a4adb374d4330a9b7819",
+      "sha1": "0a402c6c8734faf68d1b9cb862411353ddfeb324",
+      "mtime": "1568894579",
+      "download_url": "https://archive.org/download/storyofthei.n.a.s.a.ayer/STORY OF THE I. N. A. -  S. A. AYER_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:26:04.375857+00:00",
+  "notes": ""
+}

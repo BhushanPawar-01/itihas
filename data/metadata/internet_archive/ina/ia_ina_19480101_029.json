@@ -1,0 +1,70 @@
+{
+  "doc_id": "ia_ina_19480101_029",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/in.ernet.dli.2015.528950",
+  "title": "Netaji’s Life And Writings Part 2",
+  "date": "1948-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Abbyy GZ",
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "Scandata",
+    "Single Page Processed JP2 ZIP"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "in.ernet.dli.2015.528950",
+  "creator": [
+    "Bose, Subhas Chandra"
+  ],
+  "subject": [
+    "IGNCA"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "digitallibraryindia",
+    "JaiGyan",
+    "fav-bullwithball",
+    "fav-rvmfph",
+    "fav-v_maity"
+  ],
+  "description": "Book Source: Digital Library of India Item 2015.528950 dc.contributor.author: Bose, Subhas Chandra dc.date.accessioned: 2015-10-01T21:52:40Z dc.date.available: 2015-10-01T21:52:40Z dc.date.digitalpublicationdate: 3/31/2010 dc.date.citation: 1948 dc.identifier.barcode: 99999990074075 dc.identifier.origpath: /data10/data51/upload/0017/998 dc.identifier.copyno: 1 dc.identifier.uri: http://www.new.dli.ernet.in/handle/2015/528950 dc.description.scanningcentre: IGNCA, Delhi dc.description.main: 1 dc.description.tagged: 0 dc.description.totalpages: 450 dc.format.mimetype: application/pdf dc.language.iso: English dc.publisher: Thacker Spink dc.source.library: Central Archaeological Library, Asi dc.subject.classification: India, Biography dc.subject.classification: Freedom Fighter, India dc.subject.classification: Indian National Army dc.title: Netaji’s Life And Writings Part 2 dc.type: print-paper dc.type: book",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/in.ernet.dli.2015.528950",
+  "metadata_url": "https://archive.org/metadata/in.ernet.dli.2015.528950",
+  "download_base_url": "https://archive.org/download/in.ernet.dli.2015.528950",
+  "file_urls": [
+    "https://archive.org/download/in.ernet.dli.2015.528950/2015.528950.netajis-life_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "2015.528950.netajis-life_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "785340",
+      "md5": "8afdc171854c8bd5eb1df3449f3d2dd8",
+      "sha1": "dcf14459ca66af774b1ffafede0bcd2b258658b5",
+      "mtime": "1495568026",
+      "download_url": "https://archive.org/download/in.ernet.dli.2015.528950/2015.528950.netajis-life_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:42.918569+00:00",
+  "notes": ""
+}

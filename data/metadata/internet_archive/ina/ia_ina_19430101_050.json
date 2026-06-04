@@ -1,0 +1,88 @@
+{
+  "doc_id": "ia_ina_19430101_050",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/azad-hind-proclamation-1943",
+  "title": "First Proclamation of the Provisional Government of Azad Hind",
+  "date": "1943-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "azad-hind-proclamation-1943",
+  "creator": [
+    "Indian National Army"
+  ],
+  "subject": [
+    "Provisional Government of Free India",
+    "Ārzī Hukūmat-e-Āzād Hind",
+    "आर्ज़ी हुकूमत-ए-आज़ाद हिन्द",
+    "Indian National Army",
+    "INA",
+    "Azad Hind Fauj",
+    "عارضی حکومتِ آزاد ہند"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "opensource",
+    "community",
+    "fav-ashish_anand119"
+  ],
+  "description": "First Proclamation of the Provisional Government of Azad Hind (Sonan, 21st October, 1943).",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/azad-hind-proclamation-1943",
+  "metadata_url": "https://archive.org/metadata/azad-hind-proclamation-1943",
+  "download_base_url": "https://archive.org/download/azad-hind-proclamation-1943",
+  "file_urls": [
+    "https://archive.org/download/azad-hind-proclamation-1943/azad hind-1_djvu.txt",
+    "https://archive.org/download/azad-hind-proclamation-1943/azad hind-2_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "azad hind-1_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "2305",
+      "md5": "3a91a8641150912cdfda2b3adcc15096",
+      "sha1": "5c1e2ea50fbf4dd8b9e37344e421cc41cc05ce29",
+      "mtime": "1655456443",
+      "download_url": "https://archive.org/download/azad-hind-proclamation-1943/azad hind-1_djvu.txt"
+    },
+    {
+      "name": "azad hind-2_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "5479",
+      "md5": "5254b8196dffca69c1599ee42c54930f",
+      "sha1": "0b858e31f6a66672b5910601847c8d685e8439b7",
+      "mtime": "1655456447",
+      "download_url": "https://archive.org/download/azad-hind-proclamation-1943/azad hind-2_djvu.txt"
+    }
+  ],
+  "file_count": 2,
+  "scraped_at": "2026-06-01T06:25:34.103433+00:00",
+  "notes": ""
+}

@@ -1,0 +1,73 @@
+{
+  "doc_id": "ia_ina_19450101_046",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrMTIxNDg3-RGVlcGFrMQ",
+  "title": "RK-Q104-MUL-BOX NO-326-fl-123-1945-sl-5-6-MUL.pdf",
+  "date": "1945-01-01T00:00:00Z",
+  "language_original": "English",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "karnataka-state-archives-RGVlcGFrMTIxNDg3-RGVlcGFrMQ",
+  "creator": [
+    "Karnataka State Archives"
+  ],
+  "subject": [
+    "karnataka",
+    "karnataka state archives"
+  ],
+  "language_all": [
+    "English",
+    "Kannada"
+  ],
+  "collection": [
+    "legislaturesofindia",
+    "government-documents"
+  ],
+  "description": "Re. The Resolution of Bangalore city Municipal Council urging the Government of India to withdraw the cases against the offices and men of the Indian National Army Relief Fund Etc. Resolution Indian",
+  "licenseurl": "http://creativecommons.org/licenses/publicdomain/",
+  "source_url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrMTIxNDg3-RGVlcGFrMQ",
+  "metadata_url": "https://archive.org/metadata/karnataka-state-archives-RGVlcGFrMTIxNDg3-RGVlcGFrMQ",
+  "download_base_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTIxNDg3-RGVlcGFrMQ",
+  "file_urls": [
+    "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTIxNDg3-RGVlcGFrMQ/1945_RKQ104MULBOXNO326fl1231945sl56MUL_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "1945_RKQ104MULBOXNO326fl1231945sl56MUL_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "9566",
+      "md5": "90c6a5ce522730122708c38da5a9ebd4",
+      "sha1": "493b3af67cace8699c0287326eadbb2da1e71f22",
+      "mtime": "1755298986",
+      "download_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTIxNDg3-RGVlcGFrMQ/1945_RKQ104MULBOXNO326fl1231945sl56MUL_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:25:24.943146+00:00",
+  "notes": ""
+}

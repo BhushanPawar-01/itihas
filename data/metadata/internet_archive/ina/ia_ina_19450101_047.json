@@ -1,0 +1,73 @@
+{
+  "doc_id": "ia_ina_19450101_047",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrMTM0MDMx-RGVlcGFrMQ",
+  "title": "BOOKNO_46_15_FILENO_10-031.pdf",
+  "date": "1945-01-01T00:00:00Z",
+  "language_original": "English",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "karnataka-state-archives-RGVlcGFrMTM0MDMx-RGVlcGFrMQ",
+  "creator": [
+    "Karnataka State Archives"
+  ],
+  "subject": [
+    "karnataka",
+    "karnataka state archives"
+  ],
+  "language_all": [
+    "English",
+    "Kannada"
+  ],
+  "collection": [
+    "legislaturesofindia",
+    "government-documents"
+  ],
+  "description": "Date: 29 Oct 1945 Satyavadi Daily Pathrike Bangal Colombo Mahatma Gandhi Japan Washington America Patna Allahabad British Stalin Indian National Army England Bombay Bombe Hyderabad Burlin France Australia",
+  "licenseurl": "http://creativecommons.org/licenses/publicdomain/",
+  "source_url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrMTM0MDMx-RGVlcGFrMQ",
+  "metadata_url": "https://archive.org/metadata/karnataka-state-archives-RGVlcGFrMTM0MDMx-RGVlcGFrMQ",
+  "download_base_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTM0MDMx-RGVlcGFrMQ",
+  "file_urls": [
+    "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTM0MDMx-RGVlcGFrMQ/SATYAVADI_DAILY_NEW_PAPER_BOOKNO_46_15_FILENO_10_BOOKNO_46_15_FILENO_10031_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "SATYAVADI_DAILY_NEW_PAPER_BOOKNO_46_15_FILENO_10_BOOKNO_46_15_FILENO_10031_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "36209",
+      "md5": "bc5207c2669719afebb6720857077375",
+      "sha1": "a9854aacc00a6babff7ca7b1b96468166a0d5921",
+      "mtime": "1754446376",
+      "download_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTM0MDMx-RGVlcGFrMQ/SATYAVADI_DAILY_NEW_PAPER_BOOKNO_46_15_FILENO_10_BOOKNO_46_15_FILENO_10031_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:25:27.348147+00:00",
+  "notes": ""
+}

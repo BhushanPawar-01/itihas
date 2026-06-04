@@ -1,0 +1,72 @@
+{
+  "doc_id": "ia_ina_19850101_021",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/dli.bengal.10689.12672",
+  "title": "INDIA’S STRUGGLE FOR FREEDOM VOL.3",
+  "date": "1985-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Abbyy GZ",
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "Scandata",
+    "Single Page Processed JP2 ZIP"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "dli.bengal.10689.12672",
+  "creator": [
+    "GANDHI, RAJIV FOR."
+  ],
+  "subject": [
+    "West Bengal Public Library"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "digitallibraryindia",
+    "JaiGyan",
+    "fav-pallawabhishek",
+    "fav-payal_halder",
+    "fav-pdf1995",
+    "fav-smaran417",
+    "fav-vinsax"
+  ],
+  "description": "Source: West Bengal Public Library Network Source Identifier: handle/10689/12672 Field Value Lang dc.contributor.author GANDHI, RAJIV FOR. - dc.date.accessioned 2013-09-25T10:40:22Z - dc.date.available 2013-09-25T10:40:22Z - dc.date.issued 1985 - dc.identifier.uri http://hdl.handle.net/10689/12672 - dc.language.iso en_US en_US dc.publisher AGAM PRAKASHAN,DELHI en_US dc.source UTTARPARA JAYKRISHNA PUBLIC LIBRARY, HOOGHLY en_US dc.subject HISTORY en_US dc.subject INDIA HISTORY en_US dc.title INDIA’S STRUGGLE FOR FREEDOM VOL.3 en_US dc.title.alternative ROLE OF ASSOCIATED MOVEMEMNTS en_US dc.type Book en_US dc.scl.scanningcentre C-DAC KOLKATA en_US dc.scl.scanningnumber U.J.P.L._01 en_US dc.scl.digitalrepublisher DteLS en_US dc.scl.digitalpublicationdate 2011-11-08 - dc.scl.totalpages 218 en_US dc.scl.Keywords SANTAL MOVEMENT en_US dc.scl.Keywords INDIAN NATIONAL ARMY en_US dc.scl.Keywords TRIBAL MOVEMENT en_US",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/dli.bengal.10689.12672",
+  "metadata_url": "https://archive.org/metadata/dli.bengal.10689.12672",
+  "download_base_url": "https://archive.org/download/dli.bengal.10689.12672",
+  "file_urls": [
+    "https://archive.org/download/dli.bengal.10689.12672/10689.12672_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "10689.12672_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "565053",
+      "md5": "f49530176a26c5bb567d0b964355eb07",
+      "sha1": "d907b76058114baf1f7fa6c790011602f12302c4",
+      "mtime": "1537915675",
+      "download_url": "https://archive.org/download/dli.bengal.10689.12672/10689.12672_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:19.205455+00:00",
+  "notes": ""
+}

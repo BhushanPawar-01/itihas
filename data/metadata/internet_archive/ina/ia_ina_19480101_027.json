@@ -1,0 +1,72 @@
+{
+  "doc_id": "ia_ina_19480101_027",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/dli.ernet.108521",
+  "title": "Netajis Life and Writings Part 2",
+  "date": "1948-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Abbyy GZ",
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "dli.ernet.108521",
+  "creator": [
+    "Bose, Subhas Chandra"
+  ],
+  "subject": [
+    "Indian National Army",
+    "Unknown",
+    "DLI Top-Up"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "digitallibraryindia",
+    "JaiGyan",
+    "fav-anna_apelsinka",
+    "fav-parikshit_watchmaker"
+  ],
+  "description": "Source: Digital Library of India Scanning Centre: Unknown Source Library: Central Archaeological Library, Asi Date Accessioned: 7/1/2015 21:19 The Digital Library of India was a project under the auspices of the Government of India.",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/dli.ernet.108521",
+  "metadata_url": "https://archive.org/metadata/dli.ernet.108521",
+  "download_base_url": "https://archive.org/download/dli.ernet.108521",
+  "file_urls": [
+    "https://archive.org/download/dli.ernet.108521/108521-Netajis Life And Writings Part 2_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "108521-Netajis Life And Writings Part 2_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "786375",
+      "md5": "d11a23c5445f911e63a02051e48da2ff",
+      "sha1": "1ae87d27214de8eb49264e9e5a924da505eee282",
+      "mtime": "1602142664",
+      "download_url": "https://archive.org/download/dli.ernet.108521/108521-Netajis Life And Writings Part 2_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:35.918397+00:00",
+  "notes": ""
+}

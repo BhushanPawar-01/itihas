@@ -1,0 +1,66 @@
+{
+  "doc_id": "ia_ina_00000000_059",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/exhibits-of-the-indian-national-army",
+  "title": "Exhibits Of The Indian National Army",
+  "date": "",
+  "language_original": "unknown",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "exhibits-of-the-indian-national-army",
+  "creator": [],
+  "subject": [
+    "Ina"
+  ],
+  "language_all": [],
+  "collection": [
+    "opensource"
+  ],
+  "description": "Ina",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/exhibits-of-the-indian-national-army",
+  "metadata_url": "https://archive.org/metadata/exhibits-of-the-indian-national-army",
+  "download_base_url": "https://archive.org/download/exhibits-of-the-indian-national-army",
+  "file_urls": [
+    "https://archive.org/download/exhibits-of-the-indian-national-army/exhibits ofThe-Indian-National-Army_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "exhibits ofThe-Indian-National-Army_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "186018",
+      "md5": "66544563d6d3f88758645278114525ef",
+      "sha1": "1eb8f70f3f12a4858ced7e8f3330ca587aef22f1",
+      "mtime": "1733115818",
+      "download_url": "https://archive.org/download/exhibits-of-the-indian-national-army/exhibits ofThe-Indian-National-Army_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:26:07.621499+00:00",
+  "notes": ""
+}

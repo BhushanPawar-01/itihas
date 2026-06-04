@@ -1,0 +1,73 @@
+{
+  "doc_id": "ia_ina_19430101_051",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrNzU5MjE-RGVlcGFrMQ",
+  "title": "WAR/1943/WAR-B-27-58-1943-44.pdf",
+  "date": "1943-01-01T00:00:00Z",
+  "language_original": "English",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "karnataka-state-archives-RGVlcGFrNzU5MjE-RGVlcGFrMQ",
+  "creator": [
+    "Karnataka State Archives"
+  ],
+  "subject": [
+    "karnataka",
+    "karnataka state archives"
+  ],
+  "language_all": [
+    "English",
+    "Kannada"
+  ],
+  "collection": [
+    "legislaturesofindia",
+    "government-documents"
+  ],
+  "description": "Apprehension of military personnel who have entered India on behalf of the Indian National Army & are Living low in their VillagesApprehension of militaryBehalf of the Indian National Army & are",
+  "licenseurl": "http://creativecommons.org/licenses/publicdomain/",
+  "source_url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrNzU5MjE-RGVlcGFrMQ",
+  "metadata_url": "https://archive.org/metadata/karnataka-state-archives-RGVlcGFrNzU5MjE-RGVlcGFrMQ",
+  "download_base_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrNzU5MjE-RGVlcGFrMQ",
+  "file_urls": [
+    "https://archive.org/download/karnataka-state-archives-RGVlcGFrNzU5MjE-RGVlcGFrMQ/1943_WARB2758194344_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "1943_WARB2758194344_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "6213",
+      "md5": "e958ead84910ca9f6a3478025cab90ad",
+      "sha1": "77a0a05f234e970c2eb74ac17d6cbc7c41efee2b",
+      "mtime": "1755839487",
+      "download_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrNzU5MjE-RGVlcGFrMQ/1943_WARB2758194344_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:25:37.423011+00:00",
+  "notes": ""
+}

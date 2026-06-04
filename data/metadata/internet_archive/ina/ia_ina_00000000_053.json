@@ -1,0 +1,78 @@
+{
+  "doc_id": "ia_ina_00000000_053",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/rash-behari-bose-1-final",
+  "title": "Rash Behari Bose 1",
+  "date": "",
+  "language_original": "est",
+  "language_detected": null,
+  "format": [
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "EPUB",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "Word Document",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "rash-behari-bose-1-final",
+  "creator": [],
+  "subject": [
+    "INA",
+    "India",
+    "Japan",
+    "Colonialism",
+    "Britain",
+    "war",
+    "revolution",
+    "independence"
+  ],
+  "language_all": [
+    "est"
+  ],
+  "collection": [
+    "opensource",
+    "community",
+    "fav-rajgopalsverma"
+  ],
+  "description": "The first volume of the 6 part series of \"Rash Behari Bose - the Father of the Indian National Army.",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/rash-behari-bose-1-final",
+  "metadata_url": "https://archive.org/metadata/rash-behari-bose-1-final",
+  "download_base_url": "https://archive.org/download/rash-behari-bose-1-final",
+  "file_urls": [
+    "https://archive.org/download/rash-behari-bose-1-final/Rash Behari Bose 1, final_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "Rash Behari Bose 1, final_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "136687",
+      "md5": "6383ae692d93b25465552626f2dbada8",
+      "sha1": "d9046ae714e8d28d4d706c5d3aca3e3077801e64",
+      "mtime": "1678126543",
+      "download_url": "https://archive.org/download/rash-behari-bose-1-final/Rash Behari Bose 1, final_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:25:42.757922+00:00",
+  "notes": ""
+}

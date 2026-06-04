@@ -1,0 +1,73 @@
+{
+  "doc_id": "ia_ina_19450101_043",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrMTM0MDI5-RGVlcGFrMQ",
+  "title": "BOOKNO_46_15_FILENO_10-029.pdf",
+  "date": "1945-01-01T00:00:00Z",
+  "language_original": "English",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "karnataka-state-archives-RGVlcGFrMTM0MDI5-RGVlcGFrMQ",
+  "creator": [
+    "Karnataka State Archives"
+  ],
+  "subject": [
+    "karnataka",
+    "karnataka state archives"
+  ],
+  "language_all": [
+    "English",
+    "Kannada"
+  ],
+  "collection": [
+    "legislaturesofindia",
+    "government-documents"
+  ],
+  "description": "Date: 31 Oct 1945 Satyavadi Daily Pathrike New Delhi British Gandhiji Indian National Army China Communist Chiang Kaishek Hitler Sardar Vallabhai Patel Bangal Mysore G R Ramaiah",
+  "licenseurl": "http://creativecommons.org/licenses/publicdomain/",
+  "source_url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrMTM0MDI5-RGVlcGFrMQ",
+  "metadata_url": "https://archive.org/metadata/karnataka-state-archives-RGVlcGFrMTM0MDI5-RGVlcGFrMQ",
+  "download_base_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTM0MDI5-RGVlcGFrMQ",
+  "file_urls": [
+    "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTM0MDI5-RGVlcGFrMQ/SATYAVADI_DAILY_NEW_PAPER_BOOKNO_46_15_FILENO_10_BOOKNO_46_15_FILENO_10029_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "SATYAVADI_DAILY_NEW_PAPER_BOOKNO_46_15_FILENO_10_BOOKNO_46_15_FILENO_10029_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "13529",
+      "md5": "b7580946873f47357a7552255908a017",
+      "sha1": "39a2bcc6d5fa97adcc36b43d25615b4f3d5e4c8c",
+      "mtime": "1754446253",
+      "download_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTM0MDI5-RGVlcGFrMQ/SATYAVADI_DAILY_NEW_PAPER_BOOKNO_46_15_FILENO_10_BOOKNO_46_15_FILENO_10029_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:25:17.742810+00:00",
+  "notes": ""
+}

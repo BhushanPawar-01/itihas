@@ -1,0 +1,56 @@
+# data — never commit raw or processed documents
+data/raw/
+data/processed/
+data/reports/
+data/registry.csv
+
+# environment and secrets
+.env
+.env.test
+config/.env
+
+# python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# models — too large for git
+models/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# jupyter
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# ml experiment tracking
+mlruns/
+wandb/
+
+# database
+*.sql.bak
+*.dump
+
+# os
+.DS_Store
+Thumbs.db
+
+# ide
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# test and coverage
+.pytest_cache/
+.coverage
+htmlcov/

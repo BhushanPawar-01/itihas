@@ -1,0 +1,76 @@
+{
+  "doc_id": "ia_ina_00000000_052",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/gudg_eap-1435-sadaqat-1946",
+  "title": "EAP 1435 Sadaqat 1946",
+  "date": "",
+  "language_original": "unknown",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "gudg_eap-1435-sadaqat-1946",
+  "creator": [
+    "CSDS-NEW DELHI"
+  ],
+  "subject": [
+    "Sarai(CSDS)",
+    "Sarai",
+    "CSDS-New Delhi",
+    "CSDS Archives",
+    "صدقات-اردو -ہفتہ وار-اخبار",
+    "Sadaqat",
+    "صداقت",
+    "Newspaper"
+  ],
+  "language_all": [],
+  "collection": [
+    "booksbylanguage_arabic",
+    "booksbylanguage"
+  ],
+  "description": "Subjects: Sarai(CSDS), Sarai, CSDS-New Delhi, CSDS Archives, صدقات-اردو -ہفتہ وار-اخبار,Sadaqat, صداقت, Newspaper Description: Sadaqat was an Urdu weekly newspaper published from Kanpur started by Khwaja Abdussalam, who also served as its first editor. It had a long run across the twentieth and twenty-first centuries from March 1925 until 2013. This File contains issues from the year 1946. These include articles on Arab demands for independence in Palestine, the Indian National Army, and the Cabinet mission of 1946. Number and Type of Original Material : 1 binder containing 52 issues Related Subjects: 'Politics and government|Poetry|Government|Women|Literature|Cinema and Television|Children||Education|Military|Nationalism|Colonialism Languages and Grammar|Education|Demography|Conflicts|Violence ' Other Related Subjects: 'None Specified' Dates of Material (Gregorian Calendar) : 5 Jan 1946-28 Dec 1946 Editor(s) of the Original Material: None Specified Volume Number: Year 1946 Issue Number: Issue 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51 and 52. FileName: 'EAP1435_Sadaqat_1946'",
+  "licenseurl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "source_url": "https://archive.org/details/gudg_eap-1435-sadaqat-1946",
+  "metadata_url": "https://archive.org/metadata/gudg_eap-1435-sadaqat-1946",
+  "download_base_url": "https://archive.org/download/gudg_eap-1435-sadaqat-1946",
+  "file_urls": [
+    "https://archive.org/download/gudg_eap-1435-sadaqat-1946/EAP1435_Sadaqat_1946_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "EAP1435_Sadaqat_1946_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "2295668",
+      "md5": "a6189db6b5d74661bdf10ed844c6fe5b",
+      "sha1": "db83b9ede41558a037c0e4d4316b06e6bf5cbd08",
+      "mtime": "1723527750",
+      "download_url": "https://archive.org/download/gudg_eap-1435-sadaqat-1946/EAP1435_Sadaqat_1946_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:25:40.303251+00:00",
+  "notes": ""
+}

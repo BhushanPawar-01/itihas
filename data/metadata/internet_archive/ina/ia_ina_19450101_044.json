@@ -1,0 +1,73 @@
+{
+  "doc_id": "ia_ina_19450101_044",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrMTIxNDE3-RGVlcGFrMQ",
+  "title": "RK-Q104-MUL-BOX NO-313-fl-10-1945-sl-142-143-MUL.pdf",
+  "date": "1945-01-01T00:00:00Z",
+  "language_original": "English",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "karnataka-state-archives-RGVlcGFrMTIxNDE3-RGVlcGFrMQ",
+  "creator": [
+    "Karnataka State Archives"
+  ],
+  "subject": [
+    "karnataka",
+    "karnataka state archives"
+  ],
+  "language_all": [
+    "English",
+    "Kannada"
+  ],
+  "collection": [
+    "legislaturesofindia",
+    "government-documents"
+  ],
+  "description": "Contribution to the Indian National Army relief fund out of the Municipal funds. Contribution Indian National Army",
+  "licenseurl": "http://creativecommons.org/licenses/publicdomain/",
+  "source_url": "https://archive.org/details/karnataka-state-archives-RGVlcGFrMTIxNDE3-RGVlcGFrMQ",
+  "metadata_url": "https://archive.org/metadata/karnataka-state-archives-RGVlcGFrMTIxNDE3-RGVlcGFrMQ",
+  "download_base_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTIxNDE3-RGVlcGFrMQ",
+  "file_urls": [
+    "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTIxNDE3-RGVlcGFrMQ/1945_RKQ104MULBOXNO313fl101945sl142143MUL_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "1945_RKQ104MULBOXNO313fl101945sl142143MUL_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "2331",
+      "md5": "0b4e403b660d376a7821ccc186111f94",
+      "sha1": "49ca1da750c86efad30de6ae9b5d6b247afcfebd",
+      "mtime": "1755295917",
+      "download_url": "https://archive.org/download/karnataka-state-archives-RGVlcGFrMTIxNDE3-RGVlcGFrMQ/1945_RKQ104MULBOXNO313fl101945sl142143MUL_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:25:20.141020+00:00",
+  "notes": ""
+}

@@ -1,0 +1,73 @@
+{
+  "doc_id": "ia_ina_19460101_040",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/in.ernet.dli.2015.510532",
+  "title": "Testament Of Subhas Bose",
+  "date": "1946-01-01T00:00:00Z",
+  "language_original": "san",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Animated GIF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "in.ernet.dli.2015.510532",
+  "creator": [
+    "Arun"
+  ],
+  "subject": [
+    "C-DAK"
+  ],
+  "language_all": [
+    "san"
+  ],
+  "collection": [
+    "digitallibraryindia",
+    "JaiGyan",
+    "fav-alirezahafez"
+  ],
+  "description": "Book Source: Digital Library of India Item 2015.510532 dc.contributor.author: Arun dc.date.accessioned: 2015-09-30T12:28:37Z dc.date.available: 2015-09-30T12:28:37Z dc.date.digitalpublicationdate: 2010/03/26 dc.date.citation: 1946 dc.identifier.barcode: 04990010017765 dc.identifier.origpath: /data8/upload/0214/547 dc.identifier.copyno: 1 dc.identifier.uri: http://www.new.dli.ernet.in/handle/2015/510532 dc.description.scannerno: U.J.P.L_06 dc.description.scanningcentre: C-DAK, Kolkata dc.description.main: 1 dc.description.tagged: 0 dc.description.totalpages: 309 dc.format.mimetype: application/pdf dc.language.iso: Sanskrit dc.publisher.digitalrepublisher: Digital Library Of India dc.publisher: Rajkamal Publications, Delhi dc.rights: In Public Domain dc.source.library: Uttarpara Jaykrishna Public Library, Hooghly dc.subject.classification: Literature dc.subject.classification: English Speeches dc.subject.keywords: Indian National Army dc.subject.keywords: Press Statements dc.subject.keywords: Speeches from Germany dc.subject.keywords: Testament dc.subject.keywords: Arun dc.title: Testament Of Subhas Bose dc.type: Print - Paper",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/in.ernet.dli.2015.510532",
+  "metadata_url": "https://archive.org/metadata/in.ernet.dli.2015.510532",
+  "download_base_url": "https://archive.org/download/in.ernet.dli.2015.510532",
+  "file_urls": [
+    "https://archive.org/download/in.ernet.dli.2015.510532/2015.510532.Testament-Of_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "2015.510532.Testament-Of_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "1271635",
+      "md5": "e6db2d3b7974e9d98c1ae287cb713c55",
+      "sha1": "b77e08e02af04e41196efc3080bc50df92627806",
+      "mtime": "1619975174",
+      "download_url": "https://archive.org/download/in.ernet.dli.2015.510532/2015.510532.Testament-Of_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:25:10.703169+00:00",
+  "notes": ""
+}

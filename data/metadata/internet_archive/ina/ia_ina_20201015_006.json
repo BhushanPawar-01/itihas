@@ -1,0 +1,71 @@
+{
+  "doc_id": "ia_ina_20201015_006",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/16.-azad-hind-fouz-muslim-porata-yodhulu",
+  "title": "16. Azad Hind Fouz Muslim Porata Yodhulu",
+  "date": "2020-10-15T00:00:00Z",
+  "language_original": "tel",
+  "language_detected": null,
+  "format": [
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "16.-azad-hind-fouz-muslim-porata-yodhulu",
+  "creator": [
+    "Syed Naseer Ahamed"
+  ],
+  "subject": [
+    "History"
+  ],
+  "language_all": [
+    "tel"
+  ],
+  "collection": [
+    "booksbylanguage_telugu",
+    "booksbylanguage",
+    "fav-lucke133"
+  ],
+  "description": "Its about the Indian National Army and the role Muslim Warriors in INA",
+  "licenseurl": "http://creativecommons.org/publicdomain/mark/1.0/",
+  "source_url": "https://archive.org/details/16.-azad-hind-fouz-muslim-porata-yodhulu",
+  "metadata_url": "https://archive.org/metadata/16.-azad-hind-fouz-muslim-porata-yodhulu",
+  "download_base_url": "https://archive.org/download/16.-azad-hind-fouz-muslim-porata-yodhulu",
+  "file_urls": [
+    "https://archive.org/download/16.-azad-hind-fouz-muslim-porata-yodhulu/16. Azad Hind Fouz Muslim Porata Yodhulu_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "16. Azad Hind Fouz Muslim Porata Yodhulu_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "2032773",
+      "md5": "bb255da72317cc16336e19ceeebc8ec6",
+      "sha1": "aec363812366a37029c6c84ddd10f1922fc91b28",
+      "mtime": "1708856891",
+      "download_url": "https://archive.org/download/16.-azad-hind-fouz-muslim-porata-yodhulu/16. Azad Hind Fouz Muslim Porata Yodhulu_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:23:44.627958+00:00",
+  "notes": ""
+}

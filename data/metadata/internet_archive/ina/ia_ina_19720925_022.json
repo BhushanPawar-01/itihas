@@ -1,0 +1,74 @@
+{
+  "doc_id": "ia_ina_19720925_022",
+  "source": "internet_archive",
+  "topic": "ina",
+  "query": "indian national army",
+  "url": "https://archive.org/details/TNLC-DB-1972-99-3-QH7_1972-09-25",
+  "title": "Indian National Army",
+  "date": "1972-09-25T00:00:00Z",
+  "language_original": "tamil",
+  "language_detected": null,
+  "format": [
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "TNLC-DB-1972-99-3-QH7_1972-09-25",
+  "creator": [
+    "Tamil Nadu Legislative Council"
+  ],
+  "subject": [
+    "Tamil Nadu",
+    "Legislative Council",
+    "Government Documents"
+  ],
+  "language_all": [
+    "tamil",
+    "eng"
+  ],
+  "collection": [
+    "tamil-nadu-legislature",
+    "legislaturesofindia",
+    "government-documents"
+  ],
+  "description": "Document from Tamil Nadu Legislative Assembly Digital Archive",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/TNLC-DB-1972-99-3-QH7_1972-09-25",
+  "metadata_url": "https://archive.org/metadata/TNLC-DB-1972-99-3-QH7_1972-09-25",
+  "download_base_url": "https://archive.org/download/TNLC-DB-1972-99-3-QH7_1972-09-25",
+  "file_urls": [
+    "https://archive.org/download/TNLC-DB-1972-99-3-QH7_1972-09-25/TNLC-DB-1972-99-3-QH7(1972-09-25)_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "TNLC-DB-1972-99-3-QH7(1972-09-25)_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "4457",
+      "md5": "a31bad6f95e019cc2abe2c46e4bc2bba",
+      "sha1": "2ff7ee98026101aa5b5a2c8eadd94165ad1b4671",
+      "mtime": "1754150883",
+      "download_url": "https://archive.org/download/TNLC-DB-1972-99-3-QH7_1972-09-25/TNLC-DB-1972-99-3-QH7(1972-09-25)_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-01T06:24:21.356533+00:00",
+  "notes": ""
+}
