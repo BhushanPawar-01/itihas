@@ -110,6 +110,9 @@ def read_metadata(doc_id: str) -> dict:
     log.info("Reading metadata: doc_id=%s", doc_id)
     path = METADATA_DIR / f"{doc_id}.json"
     try:
+        if not path.exists():
+            log.warning("Metadata file not found, returning empty dictionary: path=%s", path)
+            return {}
         meta = json.loads(path.read_text(encoding="utf-8"))
         log.info("Read metadata: doc_id=%s path=%s keys=%d", doc_id, path, len(meta))
         return meta

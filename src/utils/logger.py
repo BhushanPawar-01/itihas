@@ -1,31 +1,25 @@
-﻿from __future__ import annotations
-
-import json
 import logging
+import json
 from datetime import datetime, timezone
 
-
-class JsonFormatter(logging.Formatter):
+class JSONFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
-        message = record.getMessage()
-        payload = {
-            "timestamp": datetime.fromtimestamp(record.created, timezone.utc).isoformat(),
+        log_record = {
+            "timestamp": datetime.fromtimestamp(record.created, tz=timezone.utc).isoformat(),
             "level": record.levelname,
             "name": record.name,
-            "message": message,
+            "message": record.getMessage()
         }
-        return json.dumps(payload, ensure_ascii=False)
-
+        return json.dumps(log_record)
 
 def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
-
-    if not any(getattr(handler, "_itihas_json", False) for handler in logger.handlers):
+    
+    if not logger.handlers:
         handler = logging.StreamHandler()
-        handler.setFormatter(JsonFormatter())
-        handler._itihas_json = True
+        handler.setFormatter(JSONFormatter())
         logger.addHandler(handler)
-
+    
     logger.propagate = False
     return logger

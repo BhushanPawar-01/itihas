@@ -10,13 +10,17 @@ from time import perf_counter
 from typing import Any, Callable
 from uuid import uuid4
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+project_root = Path(__file__).resolve().parents[2]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
-from config.settings import REGISTRY_PATH
+from config.settings import REGISTRY_PATH, PROCESSED_TEXT_DIR
 from src.processing.bias_tagger import run_on_doc as run_bias_tagger
 from src.processing.chunker import chunk_document
 from src.processing.lang_detect import run_on_doc as run_lang_detect
-from src.storage.file_store import read_metadata
+from src.processing.ocr_pipeline import run_ocr
+from src.processing.text_extractor import extract_text
+from src.storage.file_store import read_metadata, write_metadata
 from src.utils.logger import get_logger
 from src.utils.report_writer import DocResult, PipelineReport, save_report
 
@@ -104,6 +108,7 @@ def _metadata_fields(doc_id: str) -> dict:
         "chunk_count": int(meta.get("chunk_count", 0) or 0),
         "language_detected": meta.get("language_detected"),
         "bias_type": meta.get("bias_type"),
+        "needs_ocr": meta.get("needs_ocr", False),
     }
 
 
@@ -159,6 +164,31 @@ def run_pipeline(force: bool = False, doc_id: str | None = None) -> PipelineSumm
                     )
                 )
                 continue
+
+            text_path = PROCESSED_TEXT_DIR / f"{current_doc_id}.txt"
+            if not force and text_path.exists():
+                log.info("Skipping text extraction, already exists: doc_id=%s", current_doc_id)
+            else:
+                try:
+                    extract_text(current_doc_id)
+                except ValueError as e:
+                    if "needs OCR" in str(e) or "image file" in str(e):
+                        log.info("Document %s requires OCR: %s", current_doc_id, e)
+                        
+                        meta = read_metadata(current_doc_id)
+                        meta["needs_ocr"] = True
+                        write_metadata(current_doc_id, meta)
+
+                        try:
+                            run_ocr(current_doc_id)
+                            meta = read_metadata(current_doc_id)
+                            meta["ocr_applied"] = True
+                            write_metadata(current_doc_id, meta)
+                        except Exception as ocr_exc:
+                            log.error("OCR failed for %s: %s", current_doc_id, ocr_exc)
+                            raise
+                    else:
+                        raise
 
             for step_name, step in PIPELINE_STEPS:
                 failed_step = step_name
