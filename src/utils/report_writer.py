@@ -22,6 +22,7 @@ class DocResult:
     chunk_count: int = 0
     language_detected: Optional[str] = None
     bias_type: Optional[str] = None
+    needs_ocr: bool = False
     duration_seconds: float = 0.0
 
 
