@@ -29,3 +29,13 @@ DB_PASSWORD = os.getenv("DB_PASSWORD", "")
 DB_POOL_MIN = 1
 DB_POOL_MAX = 5
 EMBEDDING_DIM = 768
+
+EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+EMBEDDING_BATCH_SIZE = 64
+
+BM25_TOP_K = 20
+DENSE_TOP_K = 20
+RRF_K = 60
+RETRIEVAL_TOP_K = 10
+RERANKER_ENABLED = False
+RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
