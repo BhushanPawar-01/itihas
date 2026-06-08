@@ -6,8 +6,6 @@ import sys
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
-
 from config.settings import RAW_DIR, REGISTRY_PATH
 from src.utils.scraper import download_file, filename_from_url, slugify
 from src.utils.logger import get_logger

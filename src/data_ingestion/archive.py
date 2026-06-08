@@ -10,8 +10,6 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
-
 from config.settings import REGISTRY_PATH
 from src.utils.scraper import append_csv, json_get, make_doc_id, normalise_list, slugify
 from src.utils.logger import get_logger
