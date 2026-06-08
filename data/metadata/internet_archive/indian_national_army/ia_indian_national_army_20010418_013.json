@@ -1,0 +1,84 @@
+{
+  "doc_id": "ia_indian_national_army_20010418_013",
+  "source": "internet_archive",
+  "topic": "indian_national_army",
+  "query": "Indian National Army",
+  "url": "https://archive.org/details/rsdebate.nic.in.13529",
+  "title": "Assistance to the members of Indian National Army (18-Apr-2001)",
+  "date": "2001-04-18T00:00:00Z",
+  "language_original": "English",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "rsdebate.nic.in.13529",
+  "creator": [
+    "Rajya Sabha Secretariat"
+  ],
+  "subject": [
+    "Parliament of India",
+    "Rajya Sabha"
+  ],
+  "language_all": [
+    "English",
+    "Hindi"
+  ],
+  "collection": [
+    "legislaturesofindia",
+    "government-documents"
+  ],
+  "description": "'Assistance to the members of Indian National Army (18-Apr-2001)' from the RS Debates Digital Library",
+  "licenseurl": "http://creativecommons.org/licenses/publicdomain/",
+  "source_url": "https://archive.org/details/rsdebate.nic.in.13529",
+  "metadata_url": "https://archive.org/metadata/rsdebate.nic.in.13529",
+  "download_base_url": "https://archive.org/download/rsdebate.nic.in.13529",
+  "file_urls": [
+    "https://archive.org/download/rsdebate.nic.in.13529/IQ_192_18042001_U3511_p95_p95_djvu.txt",
+    "https://archive.org/download/rsdebate.nic.in.13529/PQ_192_18042001_U3511_p95_p95_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "IQ_192_18042001_U3511_p95_p95_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "1672",
+      "md5": "23174ff3e1afdfc2ca6bd01afa0e0e28",
+      "sha1": "d9ac9d4d843b744fb6bb239449836861005b8e08",
+      "mtime": "1753037513",
+      "download_url": "https://archive.org/download/rsdebate.nic.in.13529/IQ_192_18042001_U3511_p95_p95_djvu.txt"
+    },
+    {
+      "name": "PQ_192_18042001_U3511_p95_p95_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "1671",
+      "md5": "c0208ac76a512a3bdad07eded1c4b27d",
+      "sha1": "ad78584956a686b1b3e3edd5a67d29e3bf5a25b0",
+      "mtime": "1753037518",
+      "download_url": "https://archive.org/download/rsdebate.nic.in.13529/PQ_192_18042001_U3511_p95_p95_djvu.txt"
+    }
+  ],
+  "file_count": 2,
+  "scraped_at": "2026-06-06T04:56:57.945358+00:00",
+  "notes": ""
+}

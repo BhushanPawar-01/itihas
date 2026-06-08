@@ -1,0 +1,100 @@
+{
+  "doc_id": "ia_indian_national_army_20140101_011",
+  "source": "internet_archive",
+  "topic": "indian_national_army",
+  "query": "Indian National Army",
+  "url": "https://archive.org/details/indiansinsingapo0000rair",
+  "title": "Indians in Singapore, 1819-1945 : diaspora in the colonial port city",
+  "date": "2014-01-01T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "ACS Encrypted PDF",
+    "Cloth Cover Detection Log",
+    "DjVuTXT",
+    "Djvu XML",
+    "Dublin Core",
+    "EPUB",
+    "Item Tile",
+    "JPEG Thumb",
+    "JSON",
+    "LCP Encrypted EPUB",
+    "LCP Encrypted PDF",
+    "Log",
+    "MARC",
+    "MARC Binary",
+    "Metadata",
+    "Metadata Log",
+    "OCR Page Index",
+    "OCR Search Text",
+    "PNG",
+    "Page Numbers JSON",
+    "RePublisher Final Processing Log",
+    "RePublisher Initial Processing Log",
+    "Scandata",
+    "Single Page Original JP2 Tar",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "Title Page Detection Log",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "indiansinsingapo0000rair",
+  "creator": [
+    "Rai, Rajesh, author"
+  ],
+  "subject": [
+    "Indian National Army",
+    "East Indians -- Singapore -- History",
+    "Singapore -- History -- 1819-1867",
+    "Singapore -- History -- 1867-1942",
+    "Singapore -- History -- Japanese occupation, 1942-1945"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "internetarchivebooks",
+    "inlibrary",
+    "printdisabled",
+    "fav-chloe_lee483",
+    "fav-gibki10",
+    "fav-govind_kumar_govinda_",
+    "fav-harleeno",
+    "fav-olivia_sung251",
+    "fav-patrick_studebaker184"
+  ],
+  "description": [
+    "xxix, 325 pages ; 23 cm",
+    "Includes bibliographical references (pages 297-313) and index"
+  ],
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/indiansinsingapo0000rair",
+  "metadata_url": "https://archive.org/metadata/indiansinsingapo0000rair",
+  "download_base_url": "https://archive.org/download/indiansinsingapo0000rair",
+  "file_urls": [
+    "https://archive.org/download/indiansinsingapo0000rair/indiansinsingapo0000rair_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "indiansinsingapo0000rair_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "815804",
+      "md5": "a4eba7538066933e88dced958ea4381e",
+      "sha1": "078d27801886bfc7f28c5d2b54f2d004eaa8fedb",
+      "mtime": "1670910271",
+      "download_url": "https://archive.org/download/indiansinsingapo0000rair/indiansinsingapo0000rair_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-06T04:56:52.533465+00:00",
+  "notes": ""
+}

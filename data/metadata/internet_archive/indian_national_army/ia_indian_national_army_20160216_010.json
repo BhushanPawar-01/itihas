@@ -1,0 +1,69 @@
+{
+  "doc_id": "ia_indian_national_army_20160216_010",
+  "source": "internet_archive",
+  "topic": "indian_national_army",
+  "query": "Indian National Army",
+  "url": "https://archive.org/details/9.humHistoricalAnalysisOfBhaiBandGHHASSANWANI",
+  "title": "9.hum Historical Analysis Of Bhai Band GH HASSAN WANI",
+  "date": "2016-02-16T00:00:00Z",
+  "language_original": "eng",
+  "language_detected": null,
+  "format": [
+    "Abbyy GZ",
+    "Animated GIF",
+    "Archive BitTorrent",
+    "DjVu",
+    "DjVuTXT",
+    "Djvu XML",
+    "JPEG Thumb",
+    "Metadata",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "9.humHistoricalAnalysisOfBhaiBandGHHASSANWANI",
+  "creator": [],
+  "subject": [
+    "Bhai Band",
+    "Indian Legion",
+    "Indian National Army",
+    "and India’s Freedom Struggle"
+  ],
+  "language_all": [
+    "eng"
+  ],
+  "collection": [
+    "impactjournals",
+    "journals"
+  ],
+  "description": "Very little objective research has been done on Azad Hind Fouj both eastern branch and western branch. Out of this lot, most amount of research so far done is either the outcome of political game or personal interests. Sources have been manipulated to serve the fixed purpose. However there are still vast varieties of archival source which await exploration for genuine history writing. Bhai Band a bilingual newspaper published by Indian Legion, during World War Second, in Germany is one such source which still awaits exploration. Bhai Band had not even found a reference in the annals of Indian freedom struggle studies. However, a proper historical investigation of this newspaper will reveal a lot and will consequently help historians to broaden the historical horizon of Indian Legion, as it sheds light on different aspects of Indian Legion or German version of Azad Hind Fouj. Moreover it is not only a great source of information for constructing the history of Indian Legion alone but also of Azad Hind Fouj, Eastern Branch and Indian Nationalism abroad. Because it published news about both Western and Eastern Branch of Azad Hind Fouj and Indian patriotism, hence it will help in broadening the volume of Indian freedom struggle studies. It also reported on war situations in Europe and Asia and will therefore add information to war studies. Its uniqueness as a historical source for Indian Legion lies in the fact that, unlike other sources it sheds light not only on the military activities of Legion but also on cultural, supports, literary, religious and social activities. In its various issues this newspaper has published jokes that were played on Imperialist British during world war second by Germans and Indians. Hence this source will also help us in writing the history from jokes. Cartoons are also published in many issues of this newspaper. Those will help researchers and historians in writings the history from cartoons and as well assessing the psyche of Legionaries and German soldiers. This newspaper will therefore prove a rich source of historical information for future research.",
+  "licenseurl": "",
+  "source_url": "https://archive.org/details/9.humHistoricalAnalysisOfBhaiBandGHHASSANWANI",
+  "metadata_url": "https://archive.org/metadata/9.humHistoricalAnalysisOfBhaiBandGHHASSANWANI",
+  "download_base_url": "https://archive.org/download/9.humHistoricalAnalysisOfBhaiBandGHHASSANWANI",
+  "file_urls": [
+    "https://archive.org/download/9.humHistoricalAnalysisOfBhaiBandGHHASSANWANI/9.hum-Historical Analysis of Bhai Band-GH HASSAN WANI_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "9.hum-Historical Analysis of Bhai Band-GH HASSAN WANI_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "24317",
+      "md5": "09955cd98298e40904268159fa0888e6",
+      "sha1": "1d9d914e87139947cdd5de6b8323e836258d9b4d",
+      "mtime": "1455930965",
+      "download_url": "https://archive.org/download/9.humHistoricalAnalysisOfBhaiBandGHHASSANWANI/9.hum-Historical Analysis of Bhai Band-GH HASSAN WANI_djvu.txt"
+    }
+  ],
+  "file_count": 1,
+  "scraped_at": "2026-06-06T04:56:46.377851+00:00",
+  "notes": ""
+}

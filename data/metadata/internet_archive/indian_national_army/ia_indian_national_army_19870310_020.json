@@ -1,0 +1,84 @@
+{
+  "doc_id": "ia_indian_national_army_19870310_020",
+  "source": "internet_archive",
+  "topic": "indian_national_army",
+  "query": "Indian National Army",
+  "url": "https://archive.org/details/rsdebate.nic.in.314895",
+  "title": "Pension to former Indian National Army personnel (10-Mar-1987)",
+  "date": "1987-03-10T00:00:00Z",
+  "language_original": "English",
+  "language_detected": null,
+  "format": [
+    "Additional Text PDF",
+    "Archive BitTorrent",
+    "DjVuTXT",
+    "Djvu XML",
+    "Image Container PDF",
+    "Item Tile",
+    "Metadata",
+    "OCR Page Index",
+    "OCR Search Text",
+    "Page Numbers JSON",
+    "Scandata",
+    "Single Page Processed JP2 ZIP",
+    "Text PDF",
+    "chOCR",
+    "hOCR"
+  ],
+  "mediatype": "texts",
+  "bias_type": "unknown",
+  "access_method": "pipeline",
+  "ocr_applied": false,
+  "translated": false,
+  "chunk_count": 0,
+  "pipeline_version": "0.3",
+  "processed_at": null,
+  "ia_identifier": "rsdebate.nic.in.314895",
+  "creator": [
+    "Rajya Sabha Secretariat"
+  ],
+  "subject": [
+    "Parliament of India",
+    "Rajya Sabha"
+  ],
+  "language_all": [
+    "English",
+    "Hindi"
+  ],
+  "collection": [
+    "vonter_stacks",
+    "the_stacks"
+  ],
+  "description": "'Pension to former Indian National Army personnel (10-Mar-1987)' from the RS Debates Digital Library",
+  "licenseurl": "http://creativecommons.org/licenses/publicdomain/",
+  "source_url": "https://archive.org/details/rsdebate.nic.in.314895",
+  "metadata_url": "https://archive.org/metadata/rsdebate.nic.in.314895",
+  "download_base_url": "https://archive.org/download/rsdebate.nic.in.314895",
+  "file_urls": [
+    "https://archive.org/download/rsdebate.nic.in.314895/IQ_141_10031987_S188_p33_p33_djvu.txt",
+    "https://archive.org/download/rsdebate.nic.in.314895/PQ_141_10031987_S188_p33_p33_djvu.txt"
+  ],
+  "files": [
+    {
+      "name": "IQ_141_10031987_S188_p33_p33_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "3373",
+      "md5": "98d3444b9927983cd8cbdf158394cdde",
+      "sha1": "e2467699dafebb2ebb03a9485d689b5f6eb2a8f9",
+      "mtime": "1762637620",
+      "download_url": "https://archive.org/download/rsdebate.nic.in.314895/IQ_141_10031987_S188_p33_p33_djvu.txt"
+    },
+    {
+      "name": "PQ_141_10031987_S188_p33_p33_djvu.txt",
+      "format": "DjVuTXT",
+      "size": "3275",
+      "md5": "c69e0d101140c5c70c7969afee770157",
+      "sha1": "089acd151f18c78f37c7b4c281c2bf743ff4cd1b",
+      "mtime": "1762637638",
+      "download_url": "https://archive.org/download/rsdebate.nic.in.314895/PQ_141_10031987_S188_p33_p33_djvu.txt"
+    }
+  ],
+  "file_count": 2,
+  "scraped_at": "2026-06-06T04:57:36.353744+00:00",
+  "notes": ""
+}
