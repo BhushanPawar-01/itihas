@@ -226,7 +226,10 @@ def get_all_texts_for_bm25() -> list[dict]:
     try:
         with get_connection() as conn:
             with conn.cursor() as cur:
-                cur.execute("SELECT id, doc_id, chunk_index, text FROM chunks ORDER BY id")
+                cur.execute(
+                    "SELECT id, doc_id, chunk_index, text, source_type, bias_tag, language, date, confidence "
+                    "FROM chunks ORDER BY id"
+                )
                 columns = [desc[0] for desc in cur.description]
                 results = [dict(zip(columns, row)) for row in cur.fetchall()]
                 
