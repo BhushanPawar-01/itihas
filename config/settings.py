@@ -39,3 +39,21 @@ RRF_K = 60
 RETRIEVAL_TOP_K = 10
 RERANKER_ENABLED = False
 RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+
+# HuggingFace Inference API
+HF_API_TOKEN   = os.getenv("HF_API_TOKEN", "")
+HF_API_BASE_URL = "https://router.huggingface.co/v1"
+HF_MODEL       = os.getenv(
+    "HF_MODEL",
+    "google/gemma-4-31B-it:novita"
+)
+ 
+# Ollama local inference (Week 3 domain agents)
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "llama3")  # update after fine-tuning
+ 
+# LLM call behaviour
+LLM_MAX_RETRIES         = 3
+LLM_RETRY_DELAY         = 2    # seconds, multiplied by attempt number on 429/503
+LLM_DEFAULT_MAX_TOKENS  = 512
+LLM_DEFAULT_TEMPERATURE = 0.1  # low but not zero — HF rejects exactly 0.0
