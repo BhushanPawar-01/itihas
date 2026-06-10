@@ -1,4 +1,5 @@
 # data — never commit raw or processed documents
+data/metadata
 data/raw/
 data/processed/
 data/reports/
