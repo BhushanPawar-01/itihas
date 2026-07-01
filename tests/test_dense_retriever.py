@@ -15,9 +15,9 @@ import pytest
 def _fake_db_rows():
     """Simulates what db_client.search_by_embedding returns — dicts with 'score'."""
     return [
-        {"id": 1, "doc_id": "doc_a", "chunk_index": 0, "text": "INA soldiers at Red Fort", "bias_tag": "ina_testimony", "language": "en", "date": "1945-11-07", "score": 0.91},
-        {"id": 2, "doc_id": "doc_b", "chunk_index": 1, "text": "Trial proceedings began", "bias_tag": "british_legal", "language": "en", "date": "1945-11-08", "score": 0.76},
-        {"id": 3, "doc_id": "doc_c", "chunk_index": 0, "text": "Nationalist press coverage", "bias_tag": "nationalist_press", "language": "en", "date": "1945-11-09", "score": 0.54},
+        {"id": 1, "doc_id": "doc_a", "chunk_index": 0, "text": "INA soldiers at Red Fort", "source_type": "archival", "bias_tag": "ina_testimony", "language": "en", "date": "1945-11-07", "confidence": 0.9, "score": 0.91},
+        {"id": 2, "doc_id": "doc_b", "chunk_index": 1, "text": "Trial proceedings began", "source_type": "archival", "bias_tag": "british_legal", "language": "en", "date": "1945-11-08", "confidence": 0.9, "score": 0.76},
+        {"id": 3, "doc_id": "doc_c", "chunk_index": 0, "text": "Nationalist press coverage", "source_type": "archival", "bias_tag": "nationalist_press", "language": "en", "date": "1945-11-09", "confidence": 0.9, "score": 0.54},
     ]
 
 

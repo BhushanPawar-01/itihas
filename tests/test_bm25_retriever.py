@@ -9,11 +9,11 @@ import pytest
 
 
 SEED_CHUNKS = [
-    {"id": 1, "doc_id": "doc_a", "chunk_index": 0, "text": "British officers arrested the soldiers", "bias_tag": "british_legal", "language": "en"},
-    {"id": 2, "doc_id": "doc_b", "chunk_index": 0, "text": "Shah Nawaz Khan led the INA regiment bravely", "bias_tag": "ina_testimony", "language": "en"},
-    {"id": 3, "doc_id": "doc_c", "chunk_index": 0, "text": "The weather in Delhi was hot that summer", "bias_tag": "academic", "language": "en"},
-    {"id": 4, "doc_id": "doc_d", "chunk_index": 0, "text": "INA regiment marched under Shah Nawaz Khan command", "bias_tag": "nationalist_press", "language": "ur"},
-    {"id": 5, "doc_id": "doc_e", "chunk_index": 0, "text": "Colonial administration maintained detailed records", "bias_tag": "british_military", "language": "en"},
+    {"id": 1, "doc_id": "doc_a", "chunk_index": 0, "text": "British officers arrested the soldiers", "source_type": "archival", "bias_tag": "british_legal", "language": "en", "confidence": 0.9},
+    {"id": 2, "doc_id": "doc_b", "chunk_index": 0, "text": "Shah Nawaz Khan led the INA regiment bravely", "source_type": "archival", "bias_tag": "ina_testimony", "language": "en", "confidence": 0.9},
+    {"id": 3, "doc_id": "doc_c", "chunk_index": 0, "text": "The weather in Delhi was hot that summer", "source_type": "archival", "bias_tag": "academic", "language": "en", "confidence": 0.9},
+    {"id": 4, "doc_id": "doc_d", "chunk_index": 0, "text": "INA regiment marched under Shah Nawaz Khan command", "source_type": "archival", "bias_tag": "nationalist_press", "language": "ur", "confidence": 0.9},
+    {"id": 5, "doc_id": "doc_e", "chunk_index": 0, "text": "Colonial administration maintained detailed records", "source_type": "archival", "bias_tag": "british_military", "language": "en", "confidence": 0.9},
 ]
 
 

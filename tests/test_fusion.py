@@ -21,9 +21,11 @@ def _chunk(doc_id: str, chunk_index: int = 0, extra: dict | None = None) -> dict
         "doc_id": doc_id,
         "chunk_index": chunk_index,
         "text": f"text for {doc_id}",
+        "source_type": "archival",
         "bias_tag": "academic",
         "language": "en",
         "date": "1945-11-07",
+        "confidence": 0.9,
     }
     if extra:
         base.update(extra)

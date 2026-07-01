@@ -190,7 +190,7 @@ def search_by_embedding(query_embedding: list[float], top_k: int = 20, filters: 
     filters = filters or {}
     
     query = """
-        SELECT id, doc_id, chunk_index, text, bias_tag, language, date,
+        SELECT id, doc_id, chunk_index, text, source_type, bias_tag, language, date, confidence,
                1 - (embedding <=> %s::vector) AS score
         FROM chunks
         WHERE embedding IS NOT NULL

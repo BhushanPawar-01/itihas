@@ -1,12 +1,10 @@
 """
-agents/state.py — Shared state schema for all LangGraph agents.
-
+Shared state schema for all LangGraph agents.
 All agents read from and write to AgentState. No field is added anywhere
-else — update this file first, then the agent that needs it.
-
-No LangGraph imports. No SDK imports. Pure Python typing only.
+else update this file first, then the agent that needs it.
 """
 
+from __future__ import annotations
 import operator
 from typing import Annotated, Optional, TypedDict
 

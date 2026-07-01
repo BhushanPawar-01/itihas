@@ -1,15 +1,6 @@
 """
-src/utils/llm_client.py
-
 Single entry point for all LLM calls in Itihas.
-No LLM SDK is imported anywhere else in the codebase — only here.
-
-HuggingFace changed their API in July 2025:
-  OLD (dead): POST https://api-inference.huggingface.co/models/{model}
-              with {"inputs": "..."} — text_generation endpoint, no longer works for LLMs
-
-  NEW (current): POST https://router.huggingface.co/v1/chat/completions
-                 with OpenAI-compatible messages array
+No LLM SDK is imported anywhere else in the codebase only here.
 
 Supports two backends:
   hf     — HuggingFace Inference Providers router (default)
@@ -18,7 +9,7 @@ Supports two backends:
 Usage:
     from src.utils.llm_client import call
 
-    response = call("Classify this document.")
+    response = call("how was battle of palked fought?")
     response = call("Summarise this.", backend="ollama")
 """
 
@@ -45,17 +36,24 @@ from src.utils.logger import get_logger
 log = get_logger(__name__)
 
 
+class LLMCallError(Exception):
+    """Raised when an LLM call fails after exhausting retries."""
+    pass
+
+
 def _hf_call(
     prompt: str,
     model: str,
     max_tokens: int,
     temperature: float,
+    stop_sequences: list[str] | None = None,
 ) -> str:
     """
     POST to HuggingFace router using the OpenAI-compatible chat completions API.
     prompt is sent as a single user message.
     Returns the assistant reply string only.
-    Retries on rate limits. Raises RuntimeError on permanent failure.
+    Retries on RateLimitError and 503 (model loading) only. No retry on other 4xx.
+    Raises LLMCallError on permanent failure.
     """
     import openai
     from openai import OpenAI
@@ -65,17 +63,21 @@ def _hf_call(
         api_key=HF_API_TOKEN,
     )
 
+    kwargs: dict = dict(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=max_tokens,
+        temperature=max(temperature, 0.01),
+        timeout=60.0,
+    )
+    if stop_sequences:
+        kwargs["stop"] = stop_sequences
+
     last_exc: Exception | None = None
     for attempt in range(1, LLM_MAX_RETRIES + 1):
         t0 = time.monotonic()
         try:
-            completion = client.chat.completions.create(
-                model=model,
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=max_tokens,
-                temperature=max(temperature, 0.01),
-                timeout=60.0,
-            )
+            completion = client.chat.completions.create(**kwargs)
 
             text = completion.choices[0].message.content
             duration = time.monotonic() - t0
@@ -95,7 +97,7 @@ def _hf_call(
             continue
 
         except openai.AuthenticationError as exc:
-            raise RuntimeError(
+            raise LLMCallError(
                 "HF API auth failed — check HF_API_TOKEN in .env"
             ) from exc
 
@@ -103,6 +105,20 @@ def _hf_call(
             last_exc = exc
             log.warning("HF timeout: attempt=%d/%d", attempt, LLM_MAX_RETRIES)
             time.sleep(LLM_RETRY_DELAY * attempt)
+
+        except openai.APIStatusError as exc:
+            # Retry only on 503 (model loading). All other status errors are permanent.
+            if exc.status_code == 503:
+                last_exc = exc
+                log.warning(
+                    "HF model loading (503): attempt=%d/%d",
+                    attempt, LLM_MAX_RETRIES,
+                )
+                time.sleep(LLM_RETRY_DELAY * attempt)
+            else:
+                raise LLMCallError(
+                    f"HF API error: model={model} status={exc.status_code} body={exc.message}"
+                ) from exc
 
         except openai.APIError as exc:
             last_exc = exc
@@ -112,9 +128,6 @@ def _hf_call(
             )
             time.sleep(LLM_RETRY_DELAY * attempt)
 
-        except RuntimeError:
-            raise  # permanent errors — don't retry
-
         except Exception as exc:
             last_exc = exc
             log.warning(
@@ -123,8 +136,8 @@ def _hf_call(
             )
             time.sleep(LLM_RETRY_DELAY)
 
-    raise RuntimeError(
-        f"HF API failed after {LLM_MAX_RETRIES} attempts: {last_exc}"
+    raise LLMCallError(
+        f"HF API failed after {LLM_MAX_RETRIES} attempts: model={model} last_error={last_exc}"
     )
 
 
@@ -137,13 +150,14 @@ def _ollama_call(
     model: str,
     max_tokens: int,
     temperature: float,
+    stop_sequences: list[str] | None = None,
 ) -> str:
     """
     POST to local Ollama server at OLLAMA_BASE_URL/api/generate.
-    Raises RuntimeError if Ollama is not running or returns an error.
+    Raises LLMCallError if Ollama is not running or returns an error.
     """
     url     = f"{OLLAMA_BASE_URL}/api/generate"
-    payload = {
+    payload: dict = {
         "model":  model,
         "prompt": prompt,
         "stream": False,
@@ -152,14 +166,16 @@ def _ollama_call(
             "temperature": temperature,
         },
     }
+    if stop_sequences:
+        payload["options"]["stop"] = stop_sequences
 
     t0 = time.monotonic()
     try:
         resp = requests.post(url, json=payload, timeout=120)
 
         if resp.status_code != 200:
-            raise RuntimeError(
-                f"Ollama error: status={resp.status_code} body={resp.text[:200]}"
+            raise LLMCallError(
+                f"Ollama error: model={model} status={resp.status_code} body={resp.text[:200]}"
             )
 
         text     = resp.json().get("response", "").strip()
@@ -170,13 +186,16 @@ def _ollama_call(
         )
         return text
 
+    except LLMCallError:
+        raise
+
     except requests.exceptions.ConnectionError as exc:
-        raise RuntimeError(
+        raise LLMCallError(
             f"Ollama not reachable at {OLLAMA_BASE_URL} — is 'ollama serve' running?"
         ) from exc
 
     except requests.exceptions.Timeout as exc:
-        raise RuntimeError(
+        raise LLMCallError(
             f"Ollama timed out after 120s: model={model}"
         ) from exc
 
@@ -192,23 +211,25 @@ def call(
     model: str | None = None,
     max_tokens: int = LLM_DEFAULT_MAX_TOKENS,
     temperature: float = LLM_DEFAULT_TEMPERATURE,
+    stop_sequences: list[str] | None = None,
 ) -> str:
     """
     Make a single LLM completion call. Only function the codebase should call.
 
     Args:
-        prompt:      Full prompt string. Caller formats it.
-        backend:     "hf" (HuggingFace router) or "ollama" (local). Default "hf".
-        model:       Override model for this call only.
-                     Defaults to HF_MODEL for hf, OLLAMA_MODEL for ollama.
-        max_tokens:  Maximum tokens to generate.
-        temperature: Use 0.01 for classification tasks (router rejects exactly 0.0).
+        prompt:         Full prompt string. Caller formats it.
+        backend:        "hf" (HuggingFace router) or "ollama" (local). Default "hf".
+        model:          Override model for this call only.
+                        Defaults to HF_MODEL for hf, OLLAMA_MODEL for ollama.
+        max_tokens:     Maximum tokens to generate.
+        temperature:    Use 0.01 for classification tasks (router rejects exactly 0.0).
+        stop_sequences: Optional list of strings that stop generation when encountered.
 
     Returns:
         Generated text string, stripped of whitespace.
 
     Raises:
-        RuntimeError: API failure after retries.
+        LLMCallError: API failure after retries, or permanent error (auth, bad status).
         ValueError:   Invalid backend.
     """
     if backend == "hf":
@@ -217,7 +238,7 @@ def call(
             "LLM call: backend=hf model=%s max_tokens=%d temp=%.2f",
             resolved, max_tokens, temperature,
         )
-        return _hf_call(prompt, resolved, max_tokens, temperature)
+        return _hf_call(prompt, resolved, max_tokens, temperature, stop_sequences)
 
     elif backend == "ollama":
         resolved = model or OLLAMA_MODEL
@@ -225,7 +246,7 @@ def call(
             "LLM call: backend=ollama model=%s max_tokens=%d temp=%.2f",
             resolved, max_tokens, temperature,
         )
-        return _ollama_call(prompt, resolved, max_tokens, temperature)
+        return _ollama_call(prompt, resolved, max_tokens, temperature, stop_sequences)
 
     else:
         raise ValueError(f"Unknown backend: {backend!r}. Use 'hf' or 'ollama'.")
@@ -238,9 +259,11 @@ def call_hf(
     max_tokens: int = LLM_DEFAULT_MAX_TOKENS,
     temperature: float = LLM_DEFAULT_TEMPERATURE,
     model: str | None = None,
+    stop_sequences: list[str] | None = None,
 ) -> str:
     return call(prompt, backend="hf", model=model,
-                max_tokens=max_tokens, temperature=temperature)
+                max_tokens=max_tokens, temperature=temperature,
+                stop_sequences=stop_sequences)
 
 
 def call_ollama(
@@ -248,10 +271,12 @@ def call_ollama(
     max_tokens: int = LLM_DEFAULT_MAX_TOKENS,
     temperature: float = LLM_DEFAULT_TEMPERATURE,
     model: str | None = None,
+    stop_sequences: list[str] | None = None,
 ) -> str:
     """Used by domain agents in Week 3. Requires 'ollama serve' running locally."""
     return call(prompt, backend="ollama", model=model,
-                max_tokens=max_tokens, temperature=temperature)
+                max_tokens=max_tokens, temperature=temperature,
+                stop_sequences=stop_sequences)
 
 
 # ---------------------------------------------------------------------------
