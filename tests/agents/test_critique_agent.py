@@ -74,12 +74,13 @@ _BASE_STATE = {
 
 def test_return_keys_present():
     """critique_node must return dict with 'critique_output' and 'critique_passed'."""
-    with patch("src.agents.critique_agent.call", return_value=_PASS_RESPONSE):
+    with patch("src.agents.critique_agent.call", return_value=_PASS_RESPONSE) as mock_call:
         result = critique_node(_BASE_STATE)
 
     assert isinstance(result, dict), "must return dict"
     assert "critique_output" in result, "missing key: critique_output"
     assert "critique_passed" in result, "missing key: critique_passed"
+    assert "backend" not in mock_call.call_args.kwargs, "must use llm_client default backend"
 
 
 # ── Test 2 ────────────────────────────────────────────────────────────────────

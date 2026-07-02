@@ -153,3 +153,14 @@ def test_critique_not_passed_returns_error_no_llm_call():
     assert "narrative_output" not in result, (
         "'narrative_output' must not be present when critique has not passed"
     )
+
+
+def test_uses_llm_client_default_backend():
+    """narrative_node must not override llm_client's default backend."""
+    with patch("src.agents.narrative_agent.call", return_value=_MOCK_LLM_RESPONSE) as mock_call:
+        result = narrative_node(_BASE_STATE)
+
+    if result.get("error"):
+        pytest.fail(f"narrative_node returned error: {result['error']}")
+
+    assert "backend" not in mock_call.call_args.kwargs, "must use llm_client default backend"
