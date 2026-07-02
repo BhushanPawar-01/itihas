@@ -40,7 +40,11 @@ RETRIEVAL_TOP_K = 10
 RERANKER_ENABLED = False
 RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
-# HuggingFace Inference API
+# OpenAI variables
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL   = os.getenv("OPENAI_MODEL", "gpt-4o-mini")  
+
+# HuggingFace Inference API variables
 HF_API_TOKEN   = os.getenv("HF_API_TOKEN", "")
 HF_API_BASE_URL = "https://router.huggingface.co/v1"
 HF_MODEL       = os.getenv(
@@ -48,7 +52,7 @@ HF_MODEL       = os.getenv(
     "google/gemma-4-31B-it:novita"
 )
  
-# Ollama local inference (Week 3 domain agents)
+# Ollama local inference variables
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "llama3")  # update after fine-tuning
  
