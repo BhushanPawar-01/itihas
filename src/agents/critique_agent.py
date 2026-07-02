@@ -5,7 +5,7 @@ Reads source_output, political_output, military_output; detects contradictions;
 assigns a confidence score; decides PASS (proceed to narrative) or LOOP (re-run
 political + military).
 
-LLM calls: call(backend="hf") — Gemma4 via HF API, not Ollama.
+LLM calls: call() only; llm_client defaults agents to OpenAI.
 Meta-reasoning uses the general model, not the domain fine-tune.
 """
 
@@ -93,8 +93,8 @@ def critique_node(state: AgentState) -> dict:
         )
         prompt = f"{SYSTEM}\n\n{user_content}"
 
-        # ── 4. LLM call — HF/Mistral for meta-reasoning ───────────────────────
-        raw_response = call(prompt, backend="hf", max_tokens=512, temperature=0.1)
+        # ── 4. LLM call — llm_client default backend for meta-reasoning ───────
+        raw_response = call(prompt, max_tokens=512, temperature=0.1)
 
         # ── 5. Parse JSON — degrade gracefully on malformed output ────────────
         try:

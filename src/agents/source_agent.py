@@ -3,11 +3,11 @@ LangGraph node — Source Agent.
 
 Responsibilities:
   1. Run hybrid retrieval (BM25 + dense + RRF) via fusion.retrieve().
-  2. Triage each chunk with a local Ollama call: KEEP or DISCARD.
+  2. Triage each chunk with the default llm_client backend: KEEP or DISCARD.
      If fewer than 3 survive triage, bypass and keep all retrieved chunks.
   3. Return a partial state dict — never the full AgentState.
 
-LLM calls: call(backend=ollama) only. No other LLM import in this file.
+LLM calls: call() only; llm_client defaults agents to OpenAI.
 """
 
 from __future__ import annotations
@@ -33,7 +33,7 @@ _TRIAGE_PROMPT = (
 
 def _triage_chunk(query: str, chunk: RetrievedChunk) -> bool:
     """
-    Call Ollama to decide KEEP/DISCARD for a single chunk.
+    Call the default llm_client backend to decide KEEP/DISCARD for a single chunk.
     Returns True if the reply contains "KEEP" (case-insensitive).
     Any LLMCallError is treated as DISCARD — logged but not raised.
     """
@@ -44,10 +44,9 @@ def _triage_chunk(query: str, chunk: RetrievedChunk) -> bool:
     try:
         reply = call(
             prompt,
-            max_tokens=16,
+            max_tokens=40,
             temperature=0.01,
             stop_sequences=["KEEP", "DISCARD"],
-            #backend="ollama"
         )
         return "keep" in reply.lower()
     except Exception as exc:

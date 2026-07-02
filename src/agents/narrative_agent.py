@@ -4,7 +4,7 @@ LangGraph node — Narrative Agent.
 Synthesises validated outputs from political, military, and critique agents into
 a four-section human-readable response with citations and confidence scores.
 
-LLM calls: call(backend="hf") — Mistral via HF API, same as critique.
+LLM calls: call() only; llm_client defaults agents to OpenAI.
 Runs only after critique_passed = True (enforced by graph edge; asserted here).
 """
 
@@ -87,8 +87,8 @@ def narrative_node(state: AgentState) -> dict:
         )
         prompt = f"{SYSTEM}\n\n{user_content}"
 
-        # ── 5. LLM call — HF/Mistral for synthesis ────────────────────────────
-        response = call(prompt, backend="hf", max_tokens=1500, temperature=0.4)
+        # ── 5. LLM call — llm_client default backend for synthesis ────────────
+        response = call(prompt, max_tokens=1500, temperature=0.2)
 
         # ── 6. Build output ───────────────────────────────────────────────────
         output: AgentOutput = {
