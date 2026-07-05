@@ -9,6 +9,11 @@ import operator
 from typing import Annotated, Optional, TypedDict
 
 
+def first_error(current: Optional[str], new: Optional[str]) -> Optional[str]:
+    """Keep the first non-empty error written by parallel graph nodes."""
+    return current or new
+
+
 class RetrievedChunk(TypedDict):
     doc_id: str
     chunk_index: int
@@ -49,4 +54,4 @@ class AgentState(TypedDict):
 
     # ── Debug ─────────────────────────────────────────────────────────────────
     debug_log: Annotated[list[str], operator.add]  # append-only; all agents write here
-    error: Optional[str]                           # set by any agent on unrecoverable failure
+    error: Annotated[Optional[str], first_error]   # set by any agent on unrecoverable failure

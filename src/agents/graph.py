@@ -28,6 +28,19 @@ from src.agents.critique_agent  import critique_node
 from src.agents.narrative_agent import narrative_node
 
 
+def route_after_source(state: AgentState) -> str | list[str]:
+    """
+    Conditional edge function after retrieval.
+
+    Returns:
+      "end_with_error" - source_node failed and set state["error"]
+      ["political", "military"] - source_node succeeded; run both analyses in parallel
+    """
+    if state.get("error"):
+        return "end_with_error"
+    return ["political", "military"]
+
+
 def route_after_critique(state: AgentState) -> str:
     """
     Conditional edge function — called by LangGraph after critique_node completes.
@@ -66,8 +79,15 @@ def build_graph():
     graph.set_entry_point("source")
 
     # ── Fan-out: source → political and military in parallel ──────────────────
-    graph.add_edge("source",   "political")
-    graph.add_edge("source",   "military")
+    graph.add_conditional_edges(
+        "source",
+        route_after_source,
+        {
+            "political":      "political",
+            "military":       "military",
+            "end_with_error": END,
+        },
+    )
 
     # ── Fan-in: both converge on critique ────────────────────────────────────
     graph.add_edge("political", "critique")

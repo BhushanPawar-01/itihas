@@ -1,14 +1,18 @@
 import time
 from contextlib import contextmanager
 import psycopg2
+from psycopg2 import InterfaceError, OperationalError
 from psycopg2.pool import ThreadedConnectionPool
 from psycopg2.extras import execute_values
-from config.settings import DB_URL, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, DB_SSLMODE, DB_POOL_MIN, DB_POOL_MAX
+from config.settings import DB_URL, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, DB_SSLMODE, DB_POOL_MIN, DB_POOL_MAX, DB_CONNECT_TIMEOUT
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 _pool = None
+
+
+DB_CONNECTION_ERRORS = (OperationalError, InterfaceError)
 
 def get_pool():
     global _pool
@@ -19,7 +23,8 @@ def get_pool():
                 minconn=DB_POOL_MIN,
                 maxconn=DB_POOL_MAX,
                 dsn=DB_URL,
-                sslmode=DB_SSLMODE
+                sslmode=DB_SSLMODE,
+                connect_timeout=DB_CONNECT_TIMEOUT,
             )
         else:
             _pool = ThreadedConnectionPool(
@@ -30,7 +35,8 @@ def get_pool():
                 dbname=DB_NAME,
                 user=DB_USER,
                 password=DB_PASSWORD,
-                sslmode=DB_SSLMODE
+                sslmode=DB_SSLMODE,
+                connect_timeout=DB_CONNECT_TIMEOUT,
             )
     return _pool
 
@@ -38,13 +44,14 @@ def get_pool():
 def get_connection():
     pool = get_pool()
     conn = pool.getconn()
+    close_conn = False
     
     # Neon Tech Serverless optimization: Pre-ping the connection. 
     # If Neon scaled to zero and dropped the idle connection, we throw it away and get a fresh one.
     try:
         with conn.cursor() as cur:
             cur.execute("SELECT 1")
-    except psycopg2.OperationalError:
+    except DB_CONNECTION_ERRORS:
         logger.warning("Stale database connection detected (likely Neon scale-to-zero). Reconnecting...")
         pool.putconn(conn, close=True)
         conn = pool.getconn()
@@ -52,11 +59,16 @@ def get_connection():
     try:
         yield conn
         conn.commit()
-    except Exception as e:
-        conn.rollback()
+    except Exception:
+        close_conn = bool(getattr(conn, "closed", False))
+        try:
+            if not close_conn:
+                conn.rollback()
+        except DB_CONNECTION_ERRORS:
+            close_conn = True
         raise
     finally:
-        pool.putconn(conn)
+        pool.putconn(conn, close=close_conn)
 
 def _log_query_success(query_name: str, duration: float):
     logger.info("Query executed successfully", extra={"query_name": query_name, "duration_sec": duration})
@@ -227,7 +239,7 @@ def get_all_texts_for_bm25() -> list[dict]:
         with get_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
-                    "SELECT id, doc_id, chunk_index, text, source_type, bias_tag, language, date, confidence "
+                    "SELECT id, doc_id, chunk_index, LEFT(text, 4000) AS text, source_type, bias_tag, language, date, confidence "
                     "FROM chunks ORDER BY id"
                 )
                 columns = [desc[0] for desc in cur.description]

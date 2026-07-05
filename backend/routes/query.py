@@ -8,6 +8,7 @@ Only calls run_query() from src.agents.graph.
 from __future__ import annotations
 
 import asyncio
+import json
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -31,28 +32,22 @@ class QueryResponse(BaseModel):
     political_analysis: str
     military_analysis: str
     critique_loops: int
+    critique_output: str | None
+    source_chunks: list[dict] | None  # parsed from source_output["content"], None on error
     debug_log: list[str] | None  # None unless include_debug_log=True
     error: str | None
 
 
 @router.post("/query", response_model=QueryResponse)
 async def query_history(request: QueryRequest) -> QueryResponse:
-    """
-    POST /api/v1/query
-
-    Runs the full Itihas agent graph for the given historical query.
-
-    Behaviour:
-    - Calls run_query(request.query) in a thread pool executor (it is synchronous).
-    - If state["error"] is non-None, raises HTTP 500 with the error string as detail.
-    - If state["narrative_output"] is None despite no error, raises HTTP 500.
-    - On success, maps AgentState fields to QueryResponse.
-      political_analysis = state["political_output"]["content"]
-      military_analysis  = state["military_output"]["content"]
-      debug_log          = state["debug_log"] if request.include_debug_log else None
-    """
+    import traceback
     loop = asyncio.get_event_loop()
-    state = await loop.run_in_executor(None, run_query, request.query)
+    try:
+        state = await loop.run_in_executor(None, run_query, request.query)
+    except Exception as exc:
+        tb = traceback.format_exc()
+        print(f"EXECUTOR CRASH:\n{tb}")
+        raise HTTPException(status_code=500, detail=str(exc))
 
     if state.get("error"):
         raise HTTPException(status_code=500, detail=state["error"])
@@ -61,6 +56,12 @@ async def query_history(request: QueryRequest) -> QueryResponse:
             status_code=500,
             detail="narrative_output missing from final state — check debug_log",
         )
+
+    source_chunks = None
+    try:
+        source_chunks = json.loads(state["source_output"]["content"])
+    except Exception:
+        pass
 
     return QueryResponse(
         query_id=state["query_id"],
@@ -71,6 +72,8 @@ async def query_history(request: QueryRequest) -> QueryResponse:
         political_analysis=state["political_output"]["content"],
         military_analysis=state["military_output"]["content"],
         critique_loops=state["critique_loop_count"],
+        critique_output=state.get("critique_output", {}).get("content") if state.get("critique_output") else None,
+        source_chunks=source_chunks,
         debug_log=state["debug_log"] if request.include_debug_log else None,
         error=None,
     )
