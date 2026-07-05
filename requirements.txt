@@ -20,7 +20,7 @@ rank-bm25==0.2.2
 psycopg2-binary==2.9.12
 
 # Processing and extraction
-lingua-language-detector==2.2.0
+lingua-language-detector==2.1.1
 nltk>=3.9.0,<4.0.0
 pdfplumber==0.11.9
 
