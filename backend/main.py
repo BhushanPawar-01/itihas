@@ -6,9 +6,16 @@ Run with:
 """
 
 from __future__ import annotations
+import os
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+# Absolute path to the built frontend 
+FRONTEND_DIST = Path(__file__).parent.parent / "frontend" / "dist"
 
 from backend.routes.query import router as query_router
 from src.utils.logger import get_logger
@@ -33,6 +40,24 @@ app.add_middleware(
 
 # ── Routers ──────────────────────────────────────────────────────────────
 app.include_router(query_router, prefix="/api/v1")
+
+# Frontend patching
+if FRONTEND_DIST.exists():
+    app.mount(
+        "/assets",
+        StaticFiles(directory=FRONTEND_DIST / "assets"),
+        name="assets",
+    )
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_frontend(full_path: str) -> FileResponse:
+        """
+        Catch-all for React Router — returns index.html for any non-/api path.
+        FastAPI matches routes in registration order, so this only fires if no
+        API route matched first. /api/* is registered before this catch-all.
+        """
+        index = FRONTEND_DIST / "index.html"
+        return FileResponse(str(index))
 
 
 @app.get("/health")
