@@ -33,8 +33,23 @@ def search(
     """
     start = time.time()
 
-    query_embedding = embed_query(query)
-    raw_results = db_client.search_by_embedding(query_embedding, top_k, filters)
+    try:
+        query_embedding = embed_query(query)
+    except Exception as e:
+        logger.error(
+            "Dense retriever: failed to embed query — returning empty results",
+            extra={"error": str(e), "query": query[:80]},
+        )
+        return []
+
+    try:
+        raw_results = db_client.search_by_embedding(query_embedding, top_k, filters)
+    except Exception as e:
+        logger.error(
+            "Dense retriever: embedding DB search failed — returning empty results",
+            extra={"error": str(e)},
+        )
+        return []
 
     results = []
     for row in raw_results:

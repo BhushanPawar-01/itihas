@@ -59,7 +59,7 @@ export function buildGraphData(result) {
 
   const persons = extractPersons(narrative)
   const events  = extractEvents(narrative)
-  const docIds  = result.citations ?? []
+  const docIds = (result.citations ?? []).map(c => c.doc_id)
 
   // Build node list — deduplicate by id
   const nodeMap = new Map()

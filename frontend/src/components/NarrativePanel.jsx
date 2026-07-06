@@ -1,19 +1,7 @@
-/**
- * NarrativePanel — renders the synthesised four-section narrative response.
- *
- * Props:
- *   result: QueryResponse object from the API
- *     result.narrative        : string (markdown with ## headings)
- *     result.confidence       : float 0.0–1.0
- *     result.citations        : string[] of doc_ids
- *     result.political_analysis : string
- *     result.military_analysis  : string
- *     result.critique_loops   : int
- */
+import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 
 function ConfidenceBadge({ value }) {
-  // Colour shifts green → yellow → red as confidence drops
   const pct = Math.round(value * 100)
   const colour = pct >= 75 ? 'bg-green-100 text-green-800'
                : pct >= 50 ? 'bg-yellow-100 text-yellow-800'
@@ -25,12 +13,35 @@ function ConfidenceBadge({ value }) {
   )
 }
 
+function CollapsibleSection({ title, children }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-4 py-3
+                   text-sm font-medium text-navy-light hover:text-navy
+                   hover:bg-parchment transition-colors select-none text-left"
+      >
+        <span>{title}</span>
+        <span className="text-gray-400 text-xs ml-2">{open ? '▲ collapse' : '▼ expand'}</span>
+      </button>
+      {open && (
+        <pre className="px-4 pb-4 pt-1 text-xs text-gray-700 whitespace-pre-wrap border-t border-parchment-dark">
+          {children}
+        </pre>
+      )}
+    </div>
+  )
+}
+
 export default function NarrativePanel({ result }) {
   if (!result) return null
 
   return (
     <div className="space-y-6">
-      {/* Header row */}
+
+      {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-serif font-bold text-navy">Analysis</h2>
         <div className="flex items-center gap-3">
@@ -47,41 +58,43 @@ export default function NarrativePanel({ result }) {
         <ReactMarkdown>{result.narrative}</ReactMarkdown>
       </div>
 
-      {/* Political and Military analysis — collapsible detail */}
-      <details className="bg-white rounded-lg shadow-sm">
-        <summary className="px-4 py-3 cursor-pointer text-sm font-medium text-navy-light
-                            hover:text-navy select-none">
-          Political analysis (raw agent output)
-        </summary>
-        <pre className="px-4 pb-4 text-xs text-gray-700 whitespace-pre-wrap">
-          {result.political_analysis}
-        </pre>
-      </details>
+      {/* Political and Military — collapsed by default, toggle on click */}
+      <CollapsibleSection title="Political analysis (raw agent output)">
+        {result.political_analysis}
+      </CollapsibleSection>
 
-      <details className="bg-white rounded-lg shadow-sm">
-        <summary className="px-4 py-3 cursor-pointer text-sm font-medium text-navy-light
-                            hover:text-navy select-none">
-          Military analysis (raw agent output)
-        </summary>
-        <pre className="px-4 pb-4 text-xs text-gray-700 whitespace-pre-wrap">
-          {result.military_analysis}
-        </pre>
-      </details>
+      <CollapsibleSection title="Military analysis (raw agent output)">
+        {result.military_analysis}
+      </CollapsibleSection>
 
-      {/* Citations */}
-      {result.citations.length > 0 && (
-        <div>
-          <h3 className="text-sm font-medium text-navy mb-2">Sources cited</h3>
-          <div className="flex flex-wrap gap-2">
-            {result.citations.map(id => (
-              <span key={id}
-                    className="px-2 py-0.5 bg-parchment-dark rounded text-xs font-mono text-navy">
-                {id}
-              </span>
+      {/* Citations — unique titles with source links */}
+      {result.citations?.length > 0 && (
+        <div className="bg-white rounded-lg shadow-sm p-4">
+          <h3 className="text-sm font-medium text-navy mb-3">Sources cited</h3>
+          <div className="flex flex-col gap-2">
+            {result.citations.map(c => (
+              <div key={c.doc_id} className="flex items-start gap-2">
+                <span className="mt-0.5 text-saffron text-xs flex-shrink-0">▸</span>
+                {c.url ? (
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-navy hover:text-saffron underline underline-offset-2"
+                  >
+                    {c.title || c.doc_id}
+                  </a>
+                ) : (
+                  <span className="text-sm text-navy font-mono">
+                    {c.title || c.doc_id}
+                  </span>
+                )}
+              </div>
             ))}
           </div>
         </div>
       )}
+
     </div>
   )
 }
