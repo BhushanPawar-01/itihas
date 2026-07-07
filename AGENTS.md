@@ -1,144 +1,118 @@
-# AGENTS.md
-> Read before every task. Working code only. Plausibility is not correctness.
+# AI Coding Agent Instructions for the Itihas Repository
 
-Symlink for tools that look elsewhere:
-```bash
-ln -s AGENTS.md CLAUDE.md && ln -s AGENTS.md GEMINI.md
+## Purpose
+
+This file is the operational guideline for any AI coding agent working on Itihas.
+It defines repository rules, architecture expectations, coding conventions, and the exact workflow for adding or changing functionality.
+
+## Core Principles
+
+- Keep the repo modular: backend, frontend, processing, retrieval, storage, and agents are separate.
+- Do not move logic across layers. The backend should not contain retrieval or agent logic; the agent graph should not embed frontend code.
+- All runtime configuration belongs in `config/settings.py` or environment variables.
+- Use `AgentState` in `src/agents/state.py` as the single shared contract between agent nodes.
+- Do not invent new communication channels between agents.
+
+## Project Structure
+
+- `backend/`: FastAPI app and route definitions.
+- `frontend/`: React SPA with Tailwind styling.
+- `src/agents/`: LangGraph agent nodes and orchestrator graph.
+- `src/retrieval/`: BM25 and dense retrieval plus fusion.
+- `src/storage/`: Postgres access, ingestion, and file persistence.
+- `src/processing/`: Document extraction, OCR, language detection, chunking, bias tagging, embedding.
+- `src/utils/`: Shared utilities, logger, and LLM client.
+- `tests/`: Pytest coverage for agents and core modules.
+
+## Agentic Workflow
+
+The workflow is defined in `src/agents/graph.py`.
+All agents are standalone nodes in `src/agents/`.
+The graph entry point is `run_query(query: str)`.
+
+Graph flow:
+
+```mermaid
+flowchart TD
+    A[User Query] --> B[source]
+    B --> C{parallel}
+    C --> D[political]
+    C --> E[military]
+    D --> F[critique]
+    E --> F
+    F --> G{critique decision}
+    G -- PASS --> H[narrative]
+    G -- LOOP --> D
+    H --> I[END]
 ```
 
----
+- `source_node` retrieves relevant chunks, triages them with an LLM, and provides the evidence bundle.
+- `political_node` analyzes the evidence for power, bias, omission, and framing.
+- `military_node` analyzes the evidence for plausibility, logistics, and operational consistency.
+- `critique_node` compares political and military outputs and decides whether to loop or proceed.
+- `narrative_node` synthesizes the final report after critique passes.
 
-## 0. Non-negotiables
+> Note: the loop edge in this repository returns to `political_agent`. Because `source_agent` has already branched into both `political_agent` and `military_agent`, LangGraph re-enters the parallel analysis stage when the loop is taken.
 
-1. No flattery, no filler. Start with the answer or the action.
-2. Disagree when you disagree. Say so before doing the work.
-3. Never fabricate — paths, function names, test results, API shapes. Read the file or run the command.
-4. Stop when confused. Ask; do not pick silently and proceed.
-5. Touch only what the task requires. No drive-by refactors.
+## Agent Node Rules
 
----
+- Each node file must export one function that accepts `AgentState` and returns a partial state update dict.
+- Each node must return only the keys it updates.
+- Nodes should not mutate the incoming state in place.
+- Use `src/utils/llm_client.py` for all LLM calls.
+- Each node must append a `debug_log` entry.
+- If an unrecoverable error occurs, return `{"error": str, "debug_log": [str]}`.
 
-## 1. Before writing code
+## LLM Usage
 
-- State your plan in one or two sentences. For non-trivial tasks, list steps with a verification check for each.
-- Read the files you will touch and the files that call them.
-- Match existing patterns. If the project uses pattern X, use X.
-- Surface assumptions out loud before burying them in code.
+- The only allowed LLM interface is `src/utils/llm_client.py`.
+- Supported backends: `openai`, `hf`, `ollama`.
+- Do not import OpenAI, HuggingFace, or Ollama SDKs anywhere except in `src/utils/llm_client.py`.
+- Use `call(...)` for standard generation and follow `_openai_sdk_call` retry conventions.
+- Use low temperature values for agent analysis prompts.
 
----
+## Retrieval Rules
 
-## 2. Code quality
+- Use `src/retrieval/fusion.py` as the retrieval entrypoint.
+- Do not call `bm25_retriever` or `dense_retriever` directly from agents.
+- Retrieval is hybrid:
+  - BM25 keyword search from `src/retrieval/bm25_retriever.py`
+  - Dense embedding search from `src/retrieval/dense_retriever.py`
+  - Fusion via `reciprocal_rank_fusion`
+- If reranking is enabled in settings, `fusion.py` invokes the reranker.
 
-- Minimum code that solves the stated problem. Nothing speculative.
-- No abstractions for single-use code. No hooks or extension points not requested.
-- Handle failures that can actually happen. Ignore impossible scenarios.
-- If a solution runs 200 lines and could be 50, rewrite it first.
+## Backend Rules
 
----
+- `backend/main.py` configures FastAPI, CORS, and optional static frontend serving.
+- `backend/routes/query.py` is the API boundary for `/api/v1/query`.
+- The route calls `run_query()` and maps final `AgentState` into the response model.
+- Citation resolution is done in the route using `documents` table lookup.
+- Do not add direct database or LLM logic in backend routes.
 
-## 3. Surgical changes
+## Frontend Rules
 
-- Do not improve adjacent code not part of the task.
-- Do not delete pre-existing dead code unless asked. Mention it in the summary instead.
-- Clean up orphans your own edit creates (unused imports, variables, functions).
-- Match project style exactly: indentation, quotes, naming.
+- Use `frontend/src/api/client.js` for all HTTP calls.
+- Components should remain functional with hooks.
+- `frontend/src/components/` contains UI panels: `QueryPanel.jsx`, `NarrativePanel.jsx`, `SourcePanel.jsx`, `GraphPanel.jsx`, `DebugPanel.jsx`.
+- Do not bypass the API client.
 
----
+## Testing
 
-## 4. Verification
+- Add unit tests under `tests/` corresponding to source modules.
+- Agent tests belong in `tests/agents/`.
+- Use mocks for external systems: DB, LLM, file IO.
+- Aim for deterministic tests, not live API calls.
+- Run tests with `pytest` before finalizing changes.
 
-- Run the code. Do not report done based on a plausible diff.
-- If a test suite exists, run it. If a linter exists, run it.
-- Fix root causes, not symptoms. Suppressing an error is not fixing it.
-- After two failed corrections on the same issue, stop and ask for a session reset.
+## Deployment and Configuration
 
----
+- All secrets and deploy-time variables must come from environment variables.
+- Primary config values live in `config/settings.py`.
+- Do not hardcode credentials, models, or database URLs.
+- `DB_URL`, `OPENAI_API_KEY`, `HF_API_TOKEN`, `OLLAMA_BASE_URL`, and `OLLAMA_MODEL` are configurable.
 
-## 5. Stack
+## Documentation Expectations
 
-- **Language:** Python 3.11+
-- **Agent framework:** LangGraph only — not LangChain agents, not CrewAI
-- **LLM calls:** only through `src/utils/llm_client.py` — no SDK imports in agent files
-- **LLM API:** HuggingFace Inference API (`mistralai/Mistral-7B-Instruct-v0.3` or `meta-llama/Meta-Llama-3-8B-Instruct`)
-- **Local inference:** Ollama (fine-tuned Llama 3 8B for domain agents)
-- **Retrieval:** BM25 (`rank_bm25`) + pgvector dense search, fused with RRF. HF reranker API optional fallback only.
-- **Vector storage:** PostgreSQL + pgvector — no external vector DB services
-- **Graph DB:** Neo4j — Week 3 only, do not build earlier
-- **Backend:** FastAPI + Pydantic — no raw dicts in route handlers
-- **Frontend:** React + Tailwind + D3 + vis.js
-
----
-
-## 6. Commands
-
-```bash
-# Install
-pip install -r requirements.txt --break-system-packages
-
-# Run any pipeline script independently
-python src/ingestion/archive_scraper.py
-python src/processing/ocr_pipeline.py
-
-# Backend
-uvicorn backend.main:app --reload
-
-# Lint
-black . && isort .
-
-# Test
-pytest tests/
-```
-
----
-
-## 7. Layout
-
-- Source: `src/` (pipeline), `agents/` (LangGraph), `backend/` (FastAPI), `training/` (QLoRA)
-- Tests: `tests/` — mirror `src/` structure
-- Config: `config/settings.py` — all paths, URLs, model names imported from here
-- Secrets: `config/.env` — gitignored, loaded once in settings.py
-- **Do not modify:** `data/raw/` — read-only, original files live here forever
-- **Do not touch yet:** `agents/`, `training/`, `backend/`, `frontend/` — Week 1 is data pipeline only
-
----
-
-## 8. Conventions
-
-**Naming:**
-```
-Files:    snake_case.py
-Classes:  PascalCase
-Funcs:    snake_case
-Doc IDs:  {source}_{type}_{YYYYMMDD}_{seq}  e.g. ia_trial_19451107_001
-```
-
-**Imports:** Absolute only — `from src.utils.logger import get_logger`
-
-**Error handling:** Wrap every external call (API, DB, file read) in try/except. Log with context, then raise or return safe fallback. Never swallow silently.
-
-**Logging:** Use `src/utils/logger.py` (structured JSON). Every pipeline step logs: input, output, duration, errors. No `print()` in pipeline code.
-
-**Registry:** Update `data/registry.csv` on every document ingest. No exceptions.
-
-**Chunking:** 512 tokens max, 64-token overlap, sentence-boundary aware, after translation, never before.
-
-**Metadata:** Every processed document gets a `.json` sidecar in `data/processed/metadata/` before any downstream step runs on it.
-
----
-
-## 9. Forbidden
-
-- Calling any LLM SDK directly in `agents/` files
-- Modifying anything in `data/raw/`
-- Building Neo4j, embeddings, or agent code before 100+ validated documents exist in `data/processed/`
-- LangChain agents, CrewAI, AutoGen
-- Hardcoding secrets, API keys, or file paths outside `config/`
-- Skipping registry.csv updates
-
----
-
-## 10. Project Learnings
-
-*Agent maintains this section. Append one concrete line per session correction.*
-
-- (empty — fill as mistakes are caught)
+- Keep docs accurate and aligned with code.
+- Do not describe features that are not implemented.
+- Update this file whenever the architecture or agent graph changes.
