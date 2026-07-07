@@ -12,8 +12,9 @@ export default {
         parchment: { DEFAULT: '#F5F0E8', dark: '#E8E0CC' },
       },
       fontFamily: {
-        sans:  ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Merriweather', 'Georgia', 'serif'],
+        sans:     ['Inter', 'system-ui', 'sans-serif'],
+        serif:    ['Merriweather', 'Georgia', 'serif'],
+        samarkan: ['Samarkan', 'serif'],
       },
     },
   },
