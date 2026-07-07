@@ -2,29 +2,71 @@
  * QueryPanel — query input, submit button, loading state, error display.
  *
  * Props:
- *   onResult(result: Object) — called with the full API response on success.
- *                              Parent (App) owns result state.
- *   isLoading: bool          — true while the API call is in flight.
- *   setIsLoading(bool)       — passed down from App so App can gate other panels.
- *   error: string|null       — API error message to display, owned by App.
- *   setError(string|null)    — passed down from App.
+ *   onResult(result)         — called with the full QueryResponse on success
+ *   isLoading: bool
+ *   setIsLoading(bool)
+ *   error: string|null
+ *   setError(string|null)
+ *   onDebateStep(step)       — called with each SSE event from /query/stream
+ *                              while the query is in flight; feeds DebateFeed
  */
 import { useRef, useState } from 'react'
-import { submitQuery } from '../api/client'
+import { submitQuery, streamQuery } from '../api/client'
 
-export default function QueryPanel({ onResult, isLoading, setIsLoading, error, setError }) {
-  const [query, setQuery] = useState('')
+export default function QueryPanel({
+  onResult,
+  isLoading,
+  setIsLoading,
+  error,
+  setError,
+  onDebateStep,
+}) {
+  const [query, setQuery]             = useState('')
   const [includeDebug, setIncludeDebug] = useState(false)
-  const submittingRef = useRef(false)
+  const submittingRef                 = useRef(false)
+  const abortRef                      = useRef(null)   // AbortController for the stream
 
   async function handleSubmit() {
     if (!query.trim() || isLoading || submittingRef.current) return
     submittingRef.current = true
     setIsLoading(true)
     setError(null)
+
+    // Abort any previous in-flight stream
+    abortRef.current?.abort()
+    const controller  = new AbortController()
+    abortRef.current  = controller
+
     try {
+      // Run stream and blocking query concurrently.
+      // streamQuery feeds DebateFeed in real time.
+      // submitQuery returns the final QueryResponse.
+      // We don't await streamQuery — it resolves when the backend sends "done",
+      // but the final result comes from submitQuery. If streamQuery errors it's
+      // non-fatal (the blocking result still arrives).
+      const streamPromise = streamQuery(
+        query.trim(),
+        (event) => {
+          if (event.type === 'node_complete' || event.type === 'rebuttal') {
+            onDebateStep?.({
+              agent:   event.agent,
+              type:    event.type === 'rebuttal' ? 'loop' : 'output',
+              content: event.content ?? '',
+              label:   event.label  ?? '',
+              loop:    event.loop   ?? 0,
+            })
+          }
+        },
+        controller.signal,
+      ).catch(() => {
+        // Stream errors are non-fatal — blocking result still comes through
+      })
+
       const result = await submitQuery(query.trim(), includeDebug)
       onResult(result)
+
+      // Let stream finish cleanly in the background
+      await streamPromise
     } catch (err) {
       setError(err.message)
     } finally {
@@ -34,7 +76,6 @@ export default function QueryPanel({ onResult, isLoading, setIsLoading, error, s
   }
 
   function handleKeyDown(e) {
-    // Cmd/Ctrl + Enter submits
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') handleSubmit()
   }
 
