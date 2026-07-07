@@ -2,11 +2,18 @@
 LangGraph node — Critique Agent.
 
 Reads source_output, political_output, military_output; detects contradictions;
-assigns a confidence score; decides PASS (proceed to narrative) or LOOP (re-run
-political + military).
+assigns a confidence score; decides PASS or LOOP.
 
-LLM calls: call() only; llm_client defaults agents to OpenAI.
-Meta-reasoning uses the general model, not the domain fine-tune.
+LOOP decision logic (tightened):
+  - PASS if confidence >= 0.55  (was: only on explicit "PASS" decision)
+  - PASS if no material contradictions found
+  - PASS if this is loop >= 2 (critique has already given agents two chances;
+    forcing another loop rarely resolves anything and wastes tokens)
+  - LOOP only if confidence < 0.55 AND contradictions are flagged as material
+    AND loop count < 2
+
+This prevents the common failure mode where critique finds a minor or
+irresolvable contradiction and loops all three rounds before forcing PASS.
 """
 
 from __future__ import annotations
@@ -22,55 +29,48 @@ from src.utils.logger import get_logger
 log = get_logger(__name__)
 
 MAX_CRITIQUE_LOOPS = 3
+# Only loop if confidence is below this AND material contradictions exist
+LOOP_CONFIDENCE_THRESHOLD = 0.55
 
 SYSTEM = (
     "You are a critical reasoning engine. Three specialist agents have analysed "
-    "the same historical query. Identify contradictions between their outputs. "
-    "Rate overall confidence from 0.0 to 1.0. "
-    "Decide: PASS if outputs are consistent enough to synthesise, "
-    "or LOOP if outputs contradict on a material fact that must be resolved. "
+    "the same historical query. Your job:\n"
+    "1. Identify MATERIAL contradictions — factual claims that directly conflict "
+    "   and would change the historical conclusion if resolved differently. "
+    "   Minor differences in emphasis or framing are NOT material.\n"
+    "2. Rate overall confidence from 0.0 to 1.0 based on source quality and "
+    "   agreement between agents.\n"
+    "3. Decide PASS or LOOP:\n"
+    "   - PASS: outputs are consistent enough to synthesise, OR contradictions "
+    "     are minor/irresolvable from available evidence.\n"
+    "   - LOOP: a specific material factual contradiction exists that the agents "
+    "     could plausibly resolve if they address each other's reasoning directly. "
+    "     Only choose LOOP if you can name the exact claim in dispute.\n"
     "Respond with ONLY valid JSON, no preamble, no markdown fences:\n"
-    '{"contradictions": ["..."], "confidence": 0.0, '
+    '{"contradictions": ["..."], "material": true, "confidence": 0.0, '
     '"decision": "PASS", "critique_notes": "..."}'
 )
 
 
 def critique_node(state: AgentState) -> dict:
-    """
-    LangGraph node — returns partial state update dict.
-
-    Return keys (success):
-        critique_output      : AgentOutput
-        critique_passed      : bool
-        critique_loop_count  : int
-        debug_log            : list[str]
-
-    Return keys (loop-break):
-        critique_loop_count  : int
-        critique_passed      : bool  (True)
-        debug_log            : list[str]
-
-    Return keys (failure):
-        error     : str
-        debug_log : list[str]
-    """
-    t0 = time.monotonic()
-
-    # ── 1. Increment loop count — always, before any other check ─────────────
+    t0        = time.monotonic()
     new_count = state["critique_loop_count"] + 1
 
+    # ── Hard loop limit ───────────────────────────────────────────────────────
     if new_count >= MAX_CRITIQUE_LOOPS:
-        log.warning("critique_agent: loop limit reached (%d) — forcing PASS", new_count)
+        log.warning(
+            "critique_agent: loop limit reached (%d) — forcing PASS", new_count
+        )
         return {
             "critique_loop_count": new_count,
             "critique_passed":     True,
-            "debug_log":           ["critique_agent: forced PASS at loop limit"],
+            "debug_log": [f"critique_agent: forced PASS at loop limit {new_count}"],
         }
 
-    # ── 2. Assert upstream outputs are all present ────────────────────────────
+    # ── Assert upstream outputs present ───────────────────────────────────────
     missing = [
         name for name, val in (
-            ("source_output",   state.get("source_output")),
+            ("source_output",    state.get("source_output")),
             ("political_output", state.get("political_output")),
             ("military_output",  state.get("military_output")),
         )
@@ -84,53 +84,80 @@ def critique_node(state: AgentState) -> dict:
         }
 
     try:
-        # ── 3. Build prompt ───────────────────────────────────────────────────
+        # ── Build prompt ──────────────────────────────────────────────────────
         user_content = (
             f"Query: {state['query']}\n\n"
             f"SOURCE OUTPUT (first 500 chars): {state['source_output']['content'][:500]}\n\n"
-            f"POLITICAL OUTPUT: {state['political_output']['content']}\n\n"
-            f"MILITARY OUTPUT: {state['military_output']['content']}"
+            f"POLITICAL OUTPUT:\n{state['political_output']['content']}\n\n"
+            f"MILITARY OUTPUT:\n{state['military_output']['content']}"
         )
         prompt = f"{SYSTEM}\n\n{user_content}"
 
-        # ── 4. LLM call — llm_client default backend for meta-reasoning ───────
         raw_response = call(prompt, max_tokens=512, temperature=0.1)
 
-        # ── 5. Parse JSON — degrade gracefully on malformed output ────────────
+        # ── Parse JSON ────────────────────────────────────────────────────────
         try:
             parsed = json.loads(raw_response)
         except json.JSONDecodeError:
             log.warning(
-                "critique_agent: JSON parse failed — defaulting to PASS. Raw response: %r",
+                "critique_agent: JSON parse failed — defaulting to PASS. Raw: %r",
                 raw_response[:200],
             )
             parsed = {
                 "contradictions": [],
-                "confidence":     0.5,
+                "material":       False,
+                "confidence":     0.6,
                 "decision":       "PASS",
-                "critique_notes": "JSON parse failed",
+                "critique_notes": "JSON parse failed — defaulting to PASS",
             }
 
-        # ── 6. Resolve decision ───────────────────────────────────────────────
-        critique_passed = parsed.get("decision", "PASS").upper() == "PASS"
+        confidence    = float(parsed.get("confidence", 0.6))
+        contradictions = parsed.get("contradictions", [])
+        is_material   = bool(parsed.get("material", False))
+        llm_decision  = parsed.get("decision", "PASS").upper()
 
-        # ── 7. Build output ───────────────────────────────────────────────────
+        # ── Resolve PASS/LOOP with tightened logic ────────────────────────────
+        # LLM says LOOP, but we override to PASS if:
+        #   (a) confidence is already acceptable, or
+        #   (b) contradictions are flagged non-material, or
+        #   (c) we've already looped once (given agents one chance to rebuttal)
+        if llm_decision == "LOOP":
+            if confidence >= LOOP_CONFIDENCE_THRESHOLD:
+                critique_passed = True
+                override_reason = f"confidence {confidence:.2f} >= threshold — overriding LOOP to PASS"
+            elif not is_material:
+                critique_passed = True
+                override_reason = "contradictions flagged non-material — overriding LOOP to PASS"
+            elif new_count >= 2:
+                critique_passed = True
+                override_reason = f"already looped {new_count-1}x — overriding LOOP to PASS"
+            else:
+                critique_passed = False
+                override_reason = None
+        else:
+            critique_passed = True
+            override_reason = None
+
+        # ── Build output ──────────────────────────────────────────────────────
         output: AgentOutput = {
             "agent_name": "critique",
             "content":    raw_response,
-            "confidence": float(parsed.get("confidence", 0.5)),
+            "confidence": confidence,
             "citations":  [],
         }
 
         duration_ms = round((time.monotonic() - t0) * 1000)
-        contradictions = parsed.get("contradictions", [])
         debug_entry = (
             f"critique_agent: loop={new_count}, "
-            f"decision={parsed.get('decision', 'PASS')}, "
-            f"confidence={parsed.get('confidence', 0.5)}, "
-            f"contradictions={len(contradictions)}, "
-            f"duration_ms={duration_ms}"
+            f"llm_decision={llm_decision}, "
+            f"final_passed={critique_passed}, "
+            f"confidence={confidence:.2f}, "
+            f"material={is_material}, "
+            f"contradictions={len(contradictions)}"
+            + (f", override='{override_reason}'" if override_reason else "")
+            + f", duration_ms={duration_ms}"
         )
+        log.info(debug_entry)
 
         return {
             "critique_output":     output,

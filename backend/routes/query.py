@@ -1,8 +1,12 @@
 """
-FastAPI route — exposes the Itihas agent graph as a single POST endpoint.
+FastAPI routes — Itihas agent graph endpoints.
 
-Does not import LangGraph, llm_client, or any agent file directly.
-Only calls run_query() from src.agents.graph.
+POST /query         — blocking, returns full QueryResponse JSON (unchanged)
+POST /query/stream  — streaming SSE, emits agent events as they complete;
+                      used by the frontend DebateFeed component
+
+Neither endpoint imports LangGraph, llm_client, or agent files directly.
+All graph execution goes through src.agents.graph.
 """
 
 from __future__ import annotations
@@ -11,12 +15,15 @@ import asyncio
 import json
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from src.agents.graph import run_query
+from src.agents.graph import run_query, run_query_streaming
 
 router = APIRouter()
 
+
+# ── Request / Response models ──────────────────────────────────────────────────
 
 class QueryRequest(BaseModel):
     query: str
@@ -42,11 +49,12 @@ class QueryResponse(BaseModel):
     error: str | None
 
 
+# ── Citation resolver ──────────────────────────────────────────────────────────
+
 def resolve_citations(doc_ids: list[str]) -> list[dict]:
     """
     Look up title and URL for each doc_id from the documents table.
-    Falls back to doc_id as title if not found.
-    Never raises — returns safe fallback on any DB error.
+    Falls back to doc_id as title if not found. Never raises.
     """
     if not doc_ids:
         return []
@@ -65,16 +73,17 @@ def resolve_citations(doc_ids: list[str]) -> list[dict]:
                         for r in cur.fetchall()}
         finally:
             conn.close()
-        # Preserve order, fill gaps for any doc_id not in documents table
         return [
             rows.get(doc_id, {"doc_id": doc_id, "title": doc_id, "url": None})
-            for doc_id in dict.fromkeys(doc_ids)  # deduplicate preserving order
+            for doc_id in dict.fromkeys(doc_ids)
         ]
     except Exception as exc:
         import logging
         logging.getLogger(__name__).warning("resolve_citations failed: %s", exc)
         return [{"doc_id": d, "title": d, "url": None} for d in dict.fromkeys(doc_ids)]
 
+
+# ── POST /query — blocking (unchanged) ────────────────────────────────────────
 
 @router.post("/query", response_model=QueryResponse)
 async def query_history(request: QueryRequest) -> QueryResponse:
@@ -110,8 +119,81 @@ async def query_history(request: QueryRequest) -> QueryResponse:
         political_analysis=state["political_output"]["content"],
         military_analysis=state["military_output"]["content"],
         critique_loops=state["critique_loop_count"],
-        critique_output=state.get("critique_output", {}).get("content") if state.get("critique_output") else None,
+        critique_output=(
+            state.get("critique_output", {}).get("content")
+            if state.get("critique_output") else None
+        ),
         source_chunks=source_chunks,
         debug_log=state["debug_log"] if request.include_debug_log else None,
         error=None,
+    )
+
+
+# ── POST /query/stream — SSE streaming ────────────────────────────────────────
+
+class StreamQueryRequest(BaseModel):
+    query: str
+
+
+@router.post("/query/stream")
+async def stream_query(request: StreamQueryRequest) -> StreamingResponse:
+    """
+    Streams agent events as Server-Sent Events while the graph runs.
+
+    Each event is a JSON object:
+      { type, agent, label, loop, content, error }   — node_complete / rebuttal
+      { type: "done" }                               — graph finished
+      { type: "error", content, traceback }          — unhandled exception
+
+    The frontend runs this alongside POST /query:
+      - /query/stream feeds DebateFeed (live agent steps)
+      - /query         delivers the final QueryResponse when complete
+
+    Uses StreamingResponse with text/event-stream — no extra dependencies.
+    The generator runs in a thread pool (run_in_executor) so it doesn't block
+    the event loop; FastAPI iterates the async wrapper.
+    """
+    loop = asyncio.get_event_loop()
+
+    async def async_generator():
+        # run_query_streaming is a sync generator — wrap in a thread
+        # We collect events via a queue to bridge sync generator → async generator
+        import queue
+        import threading
+
+        q: queue.Queue = queue.Queue()
+        SENTINEL = object()
+
+        def producer():
+            try:
+                for event in run_query_streaming(request.query):
+                    q.put(event)
+            except Exception as exc:
+                q.put(f"data: {json.dumps({'type': 'error', 'content': str(exc)})}\n\n")
+            finally:
+                q.put(SENTINEL)
+
+        thread = threading.Thread(target=producer, daemon=True)
+        thread.start()
+
+        while True:
+            # Poll queue without blocking the event loop
+            try:
+                item = q.get_nowait()
+            except queue.Empty:
+                await asyncio.sleep(0.05)
+                continue
+
+            if item is SENTINEL:
+                break
+            yield item
+
+    return StreamingResponse(
+        async_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control":               "no-cache",
+            "X-Accel-Buffering":           "no",   # disable nginx buffering if present
+            "Access-Control-Allow-Origin": "*",
+        },
     )

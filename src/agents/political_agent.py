@@ -5,7 +5,11 @@ Reads source_output["content"] (JSON written by source_node), groups chunks by
 bias_tag, and produces a three-section political analysis: BENEFICIARY, OMISSIONS,
 INTERPRETATION.
 
-LLM calls: call. No other LLM import in this file.
+On rebuttal rounds (critique_loop_count > 0): injects the specific contradictions
+identified by critique_agent and the current military_output, instructing the model
+to address the named disagreement — not rerun blind.
+
+LLM calls: call(). No other LLM import in this file.
 """
 
 from __future__ import annotations
@@ -31,6 +35,29 @@ SYSTEM = (
     "BENEFICIARY, OMISSIONS, INTERPRETATION."
 )
 
+REBUTTAL_SYSTEM = (
+    "You are a political historian specialising in colonial India 1600-1947. "
+    "You have already produced a political analysis. A critique agent has identified "
+    "specific contradictions between your analysis and the military analysis. "
+    "You must now produce a revised political analysis that directly addresses each "
+    "named contradiction. "
+    "Either revise your prior position with stated justification from the evidence, "
+    "or explain precisely why the apparent conflict is not a real contradiction. "
+    "Do not simply restate your original analysis unchanged — that is not acceptable. "
+    "Output exactly three labelled sections: BENEFICIARY, OMISSIONS, INTERPRETATION."
+)
+
+
+def _parse_contradictions(critique_output: dict | None) -> list[str]:
+    """Extract the contradictions list from critique_output. Never raises."""
+    if not critique_output:
+        return []
+    try:
+        parsed = json.loads(critique_output["content"])
+        return parsed.get("contradictions", [])
+    except Exception:
+        return []
+
 
 def political_node(state: AgentState) -> dict:
     """
@@ -38,13 +65,15 @@ def political_node(state: AgentState) -> dict:
 
     Return keys (success):
         political_output : AgentOutput
-        debug_log        : list[str]  — single entry, appended by LangGraph reducer
+        debug_log        : list[str]
 
     Return keys (failure):
         error     : str
         debug_log : list[str]
     """
     t0 = time.monotonic()
+    loop_count = state.get("critique_loop_count", 0)
+    is_rebuttal = loop_count > 0 and state.get("critique_output") is not None
 
     # ── 1. Guard: source_output must exist ───────────────────────────────────
     if state.get("source_output") is None:
@@ -56,7 +85,7 @@ def political_node(state: AgentState) -> dict:
         }
 
     try:
-        # ── 2. Parse source evidence ─────────────────────────────────────────
+        # ── 2. Parse source evidence ──────────────────────────────────────────
         try:
             chunks: list[dict] = json.loads(state["source_output"]["content"])
         except (json.JSONDecodeError, KeyError) as exc:
@@ -67,7 +96,7 @@ def political_node(state: AgentState) -> dict:
         if not chunks:
             raise ValueError("political_node: source_output content is an empty list")
 
-        # ── 3. Group by bias_tag, build user_content ─────────────────────────
+        # ── 3. Group by bias_tag, build evidence section ──────────────────────
         groups: dict[str, list[dict]] = defaultdict(list)
         for chunk in chunks:
             groups[chunk["bias_tag"]].append(chunk)
@@ -77,25 +106,54 @@ def political_node(state: AgentState) -> dict:
             group_text = "\n".join(c["text"][:300] for c in groups[tag])
             user_parts.append(f"## {tag}\n{group_text}")
 
-        user_content = "\n\n".join(user_parts) + f"\n\nQuery: {state['query']}"
-        prompt = f"{SYSTEM}\n\n{user_content}"
+        evidence_section = "\n\n".join(user_parts)
 
-        # ── 4. LLM call ───────────────────────────────────────────────────────
+        # ── 4. Build prompt — rebuttal round vs first pass ────────────────────
+        if is_rebuttal:
+            contradictions = _parse_contradictions(state.get("critique_output"))
+            military_output = state.get("military_output")
+            military_text   = military_output["content"] if military_output else "(not available)"
+
+            contradiction_lines = "\n".join(
+                f"  {i+1}. {c}" for i, c in enumerate(contradictions)
+            ) if contradictions else "  (no specific contradictions listed — revise for clarity)"
+
+            user_content = (
+                f"Query: {state['query']}\n\n"
+                f"--- EVIDENCE ---\n{evidence_section}\n\n"
+                f"--- YOUR PRIOR POLITICAL ANALYSIS ---\n"
+                f"{state['political_output']['content']}\n\n"
+                f"--- MILITARY AGENT'S CURRENT ANALYSIS ---\n{military_text}\n\n"
+                f"--- CONTRADICTIONS IDENTIFIED BY CRITIQUE (round {loop_count}) ---\n"
+                f"{contradiction_lines}\n\n"
+                f"Now produce your revised political analysis addressing these contradictions."
+            )
+            prompt = f"{REBUTTAL_SYSTEM}\n\n{user_content}"
+            log.info(
+                "political_agent: rebuttal round %d — %d contradiction(s) to address",
+                loop_count, len(contradictions)
+            )
+        else:
+            user_content = evidence_section + f"\n\nQuery: {state['query']}"
+            prompt = f"{SYSTEM}\n\n{user_content}"
+
+        # ── 5. LLM call ───────────────────────────────────────────────────────
         response = call(prompt, max_tokens=800, temperature=0.3)
 
-        # ── 5. Build output ───────────────────────────────────────────────────
+        # ── 6. Build output ───────────────────────────────────────────────────
         output: AgentOutput = {
             "agent_name": "political",
             "content":    response,
-            "confidence": 0.8,  # fixed; critique_node adjusts
+            "confidence": 0.8,
             "citations":  [c["doc_id"] for c in chunks],
         }
 
         duration_ms = round((time.monotonic() - t0) * 1000)
-        sorted_tags = sorted(groups.keys())
+        round_label = f"rebuttal_round={loop_count}" if is_rebuttal else "first_pass"
         debug_entry = (
-            f"political_agent: chunks={len(chunks)}, "
-            f"bias_tags={sorted_tags}, "
+            f"political_agent: {round_label}, "
+            f"chunks={len(chunks)}, "
+            f"bias_tags={sorted(groups.keys())}, "
             f"duration_ms={duration_ms}"
         )
 
