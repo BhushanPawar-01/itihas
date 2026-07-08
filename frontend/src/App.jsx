@@ -64,22 +64,27 @@ export default function App() {
 
       {/* Header */}
       <header className="bg-parchment-dark border-b border-parchment-dark px-6 py-4">
-        <div className="max-w-[1400px] mx-auto flex items-baseline justify-between">
-          <div className="flex items-baseline gap-4">
-            <h1 className="font-samarkan text-3xl text-navy tracking-wide leading-none">
+        <div className="max-w-[1400px] mx-auto flex items-start justify-between gap-4">
+          <div className="flex items-start gap-4">
+            <h1 className="font-samarkan text-[40px] text-navy tracking-wide leading-none font-bold">
               Itihas
             </h1>
-            <p className="text-xs text-navy-light">
-              Adversarial AI · Indian military &amp; political history, 1600–1947
-            </p>
+            <div className="flex flex-col gap-1">
+              <p className="text-sm text-navy-light italic">
+                Adversarial AI · Indian military &amp; political history, 1600–1947
+              </p>
+              <p className="text-sm text-navy-light italic">
+                (this is an MVP therefore currently only 1940-1950 data available)
+              </p>
+            </div>
           </div>
 
           {/* New conversation button — only visible once a turn exists */}
           {hasHistory && (
             <button
               onClick={handleNewConversation}
-              className="text-xs text-navy-light hover:text-navy underline
-                         underline-offset-2 transition-colors"
+              type="button"
+              className="inline-flex items-center justify-center cursor-pointer border border-navy/30 rounded-md bg-navy-light px-4 py-2 text-sm text-parchment shadow-sm transition-colors hover:bg-navy focus:outline-none focus:ring-2 focus:ring-navy/40"
             >
               New conversation
             </button>
