@@ -16,8 +16,20 @@ from fastapi.responses import FileResponse
 
 # Absolute path to the built frontend 
 FRONTEND_DIST = Path(__file__).parent.parent / "frontend" / "dist"
+FRONTEND_CACHE_HEADERS = {
+    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+    "Pragma": "no-cache",
+    "Expires": "0",
+}
 
-from backend.routes.query import router as query_router
+from backend.routes.query import (
+    QueryRequest,
+    QueryResponse,
+    StreamQueryRequest,
+    query_history,
+    router as query_router,
+    stream_query,
+)
 from src.utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -49,6 +61,16 @@ if FRONTEND_DIST.exists():
         name="assets",
     )
 
+    def _frontend_index_response() -> FileResponse:
+        return FileResponse(
+            str(FRONTEND_DIST / "index.html"),
+            headers=FRONTEND_CACHE_HEADERS,
+        )
+
+    @app.get("/", include_in_schema=False)
+    async def serve_frontend_root() -> FileResponse:
+        return _frontend_index_response()
+
     @app.get("/{full_path:path}", include_in_schema=False)
     async def serve_frontend(full_path: str) -> FileResponse:
         """
@@ -56,8 +78,17 @@ if FRONTEND_DIST.exists():
         FastAPI matches routes in registration order, so this only fires if no
         API route matched first. /api/* is registered before this catch-all.
         """
-        index = FRONTEND_DIST / "index.html"
-        return FileResponse(str(index))
+        return _frontend_index_response()
+
+
+@app.post("/query", include_in_schema=False, response_model=QueryResponse)
+async def legacy_query(request: QueryRequest) -> QueryResponse:
+    return await query_history(request)
+
+
+@app.post("/query/stream", include_in_schema=False)
+async def legacy_stream_query(request: StreamQueryRequest):
+    return await stream_query(request)
 
 
 @app.get("/health")
