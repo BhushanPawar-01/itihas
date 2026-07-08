@@ -1,9 +1,16 @@
 """
 FastAPI routes — Itihas agent graph endpoints.
 
-POST /query         — blocking, returns full QueryResponse JSON (unchanged)
+POST /query         — blocking, returns full QueryResponse JSON.
+                      Accepts optional conversation_history to enable follow-up
+                      queries within a session. The history is passed to run_query()
+                      which builds a conversation context string via memory.py and
+                      seeds it into AgentState before the graph runs.
+
 POST /query/stream  — streaming SSE, emits agent events as they complete;
-                      used by the frontend DebateFeed component
+                      used by the frontend DebateFeed component. Does NOT carry
+                      conversation history — the stream is live visual feedback only;
+                      the final contextual answer comes from POST /query.
 
 Neither endpoint imports LangGraph, llm_client, or agent files directly.
 All graph execution goes through src.agents.graph.
@@ -25,28 +32,47 @@ router = APIRouter()
 
 # ── Request / Response models ──────────────────────────────────────────────────
 
+class ConversationTurn(BaseModel):
+    """
+    One completed prior turn. Mirrors what the frontend accumulates in
+    App.jsx's conversationHistory state.
+
+    source_chunks may be None if the frontend did not receive them (e.g. on
+    an earlier error turn that still produced a narrative). memory.py handles
+    None gracefully.
+    """
+    query:         str
+    narrative:     str
+    source_chunks: list[dict] | None = None
+
+
 class QueryRequest(BaseModel):
-    query: str
-    include_debug_log: bool = False
+    query:                str
+    include_debug_log:    bool                    = False
+    # Optional list of prior completed turns, oldest first.
+    # Omit or pass [] for the first query in a session.
+    conversation_history: list[ConversationTurn] = []
+
 
 class CitationItem(BaseModel):
     doc_id: str
-    title: str
-    url: str | None
+    title:  str
+    url:    str | None
+
 
 class QueryResponse(BaseModel):
-    query_id: str
-    query: str
-    narrative: str
-    confidence: float
-    citations: list[CitationItem]
+    query_id:           str
+    query:              str
+    narrative:          str
+    confidence:         float
+    citations:          list[CitationItem]
     political_analysis: str
-    military_analysis: str
-    critique_loops: int
-    critique_output: str | None
-    source_chunks: list[dict] | None
-    debug_log: list[str] | None
-    error: str | None
+    military_analysis:  str
+    critique_loops:     int
+    critique_output:    str | None
+    source_chunks:      list[dict] | None
+    debug_log:          list[str] | None
+    error:              str | None
 
 
 # ── Citation resolver ──────────────────────────────────────────────────────────
@@ -83,14 +109,28 @@ def resolve_citations(doc_ids: list[str]) -> list[dict]:
         return [{"doc_id": d, "title": d, "url": None} for d in dict.fromkeys(doc_ids)]
 
 
-# ── POST /query — blocking (unchanged) ────────────────────────────────────────
+# ── POST /query — blocking ─────────────────────────────────────────────────────
 
 @router.post("/query", response_model=QueryResponse)
 async def query_history(request: QueryRequest) -> QueryResponse:
     import traceback
+
+    # Convert Pydantic ConversationTurn objects to plain dicts for memory.py.
+    # memory.py expects: {"query": str, "narrative": str, "source_chunks": list|None}
+    history_dicts = [
+        {
+            "query":         turn.query,
+            "narrative":     turn.narrative,
+            "source_chunks": turn.source_chunks,
+        }
+        for turn in request.conversation_history
+    ]
+
     loop = asyncio.get_event_loop()
     try:
-        state = await loop.run_in_executor(None, run_query, request.query)
+        state = await loop.run_in_executor(
+            None, run_query, request.query, history_dicts
+        )
     except Exception as exc:
         tb = traceback.format_exc()
         print(f"EXECUTOR CRASH:\n{tb}")
@@ -139,25 +179,18 @@ class StreamQueryRequest(BaseModel):
 async def stream_query(request: StreamQueryRequest) -> StreamingResponse:
     """
     Streams agent events as Server-Sent Events while the graph runs.
+    Does NOT accept conversation_history — the stream feeds DebateFeed
+    (live visual feedback only). The final answer with full context is
+    delivered by the concurrent POST /query call from the frontend.
 
     Each event is a JSON object:
       { type, agent, label, loop, content, error }   — node_complete / rebuttal
       { type: "done" }                               — graph finished
       { type: "error", content, traceback }          — unhandled exception
-
-    The frontend runs this alongside POST /query:
-      - /query/stream feeds DebateFeed (live agent steps)
-      - /query         delivers the final QueryResponse when complete
-
-    Uses StreamingResponse with text/event-stream — no extra dependencies.
-    The generator runs in a thread pool (run_in_executor) so it doesn't block
-    the event loop; FastAPI iterates the async wrapper.
     """
     loop = asyncio.get_event_loop()
 
     async def async_generator():
-        # run_query_streaming is a sync generator — wrap in a thread
-        # We collect events via a queue to bridge sync generator → async generator
         import queue
         import threading
 
@@ -177,7 +210,6 @@ async def stream_query(request: StreamQueryRequest) -> StreamingResponse:
         thread.start()
 
         while True:
-            # Poll queue without blocking the event loop
             try:
                 item = q.get_nowait()
             except queue.Empty:
@@ -193,7 +225,7 @@ async def stream_query(request: StreamQueryRequest) -> StreamingResponse:
         media_type="text/event-stream",
         headers={
             "Cache-Control":               "no-cache",
-            "X-Accel-Buffering":           "no",   # disable nginx buffering if present
+            "X-Accel-Buffering":           "no",
             "Access-Control-Allow-Origin": "*",
         },
     )

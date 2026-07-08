@@ -9,6 +9,9 @@ On rebuttal rounds (critique_loop_count > 0): injects the specific contradiction
 identified by critique_agent and the current military_output, instructing the model
 to address the named disagreement — not rerun blind.
 
+If conversation_context is present in state, it is prepended to the prompt so the
+agent is aware of what was established in prior turns.
+
 LLM calls: call(). No other LLM import in this file.
 """
 
@@ -59,23 +62,21 @@ def _parse_contradictions(critique_output: dict | None) -> list[str]:
         return []
 
 
+def _context_prefix(state: AgentState) -> str:
+    """
+    Return the conversation context block if present, else empty string.
+    Prepended to user_content so the model sees prior turns as input to
+    reason about, not as a system instruction.
+    """
+    ctx = state.get("conversation_context", "")
+    return f"{ctx}\n\n" if ctx else ""
+
+
 def political_node(state: AgentState) -> dict:
-    """
-    LangGraph node — returns partial state update dict.
-
-    Return keys (success):
-        political_output : AgentOutput
-        debug_log        : list[str]
-
-    Return keys (failure):
-        error     : str
-        debug_log : list[str]
-    """
     t0 = time.monotonic()
-    loop_count = state.get("critique_loop_count", 0)
+    loop_count  = state.get("critique_loop_count", 0)
     is_rebuttal = loop_count > 0 and state.get("critique_output") is not None
 
-    # ── 1. Guard: source_output must exist ───────────────────────────────────
     if state.get("source_output") is None:
         msg = "political_node: source_output is None"
         log.error(msg)
@@ -85,7 +86,6 @@ def political_node(state: AgentState) -> dict:
         }
 
     try:
-        # ── 2. Parse source evidence ──────────────────────────────────────────
         try:
             chunks: list[dict] = json.loads(state["source_output"]["content"])
         except (json.JSONDecodeError, KeyError) as exc:
@@ -96,7 +96,6 @@ def political_node(state: AgentState) -> dict:
         if not chunks:
             raise ValueError("political_node: source_output content is an empty list")
 
-        # ── 3. Group by bias_tag, build evidence section ──────────────────────
         groups: dict[str, list[dict]] = defaultdict(list)
         for chunk in chunks:
             groups[chunk["bias_tag"]].append(chunk)
@@ -107,10 +106,10 @@ def political_node(state: AgentState) -> dict:
             user_parts.append(f"## {tag}\n{group_text}")
 
         evidence_section = "\n\n".join(user_parts)
+        ctx_prefix       = _context_prefix(state)
 
-        # ── 4. Build prompt — rebuttal round vs first pass ────────────────────
         if is_rebuttal:
-            contradictions = _parse_contradictions(state.get("critique_output"))
+            contradictions  = _parse_contradictions(state.get("critique_output"))
             military_output = state.get("military_output")
             military_text   = military_output["content"] if military_output else "(not available)"
 
@@ -119,6 +118,7 @@ def political_node(state: AgentState) -> dict:
             ) if contradictions else "  (no specific contradictions listed — revise for clarity)"
 
             user_content = (
+                f"{ctx_prefix}"
                 f"Query: {state['query']}\n\n"
                 f"--- EVIDENCE ---\n{evidence_section}\n\n"
                 f"--- YOUR PRIOR POLITICAL ANALYSIS ---\n"
@@ -131,16 +131,14 @@ def political_node(state: AgentState) -> dict:
             prompt = f"{REBUTTAL_SYSTEM}\n\n{user_content}"
             log.info(
                 "political_agent: rebuttal round %d — %d contradiction(s) to address",
-                loop_count, len(contradictions)
+                loop_count, len(contradictions),
             )
         else:
-            user_content = evidence_section + f"\n\nQuery: {state['query']}"
+            user_content = f"{ctx_prefix}{evidence_section}\n\nQuery: {state['query']}"
             prompt = f"{SYSTEM}\n\n{user_content}"
 
-        # ── 5. LLM call ───────────────────────────────────────────────────────
         response = call(prompt, max_tokens=800, temperature=0.3)
 
-        # ── 6. Build output ───────────────────────────────────────────────────
         output: AgentOutput = {
             "agent_name": "political",
             "content":    response,
@@ -148,13 +146,15 @@ def political_node(state: AgentState) -> dict:
             "citations":  [c["doc_id"] for c in chunks],
         }
 
-        duration_ms = round((time.monotonic() - t0) * 1000)
-        round_label = f"rebuttal_round={loop_count}" if is_rebuttal else "first_pass"
-        debug_entry = (
+        duration_ms  = round((time.monotonic() - t0) * 1000)
+        round_label  = f"rebuttal_round={loop_count}" if is_rebuttal else "first_pass"
+        context_note = f" [ctx={len(state.get('conversation_context',''))}chars]" \
+                       if state.get("conversation_context") else ""
+        debug_entry  = (
             f"political_agent: {round_label}, "
             f"chunks={len(chunks)}, "
             f"bias_tags={sorted(groups.keys())}, "
-            f"duration_ms={duration_ms}"
+            f"duration_ms={duration_ms}{context_note}"
         )
 
         return {

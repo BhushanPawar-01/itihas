@@ -3,6 +3,8 @@ LangGraph node — Source Agent.
 
 Responsibilities:
   1. Run hybrid retrieval (BM25 + dense + RRF) via fusion.retrieve().
+     If conversation_context is present, it is appended to the query string
+     passed to retrieve() so follow-up retrieval is biased by prior context.
   2. Triage each chunk with the default llm_client backend: KEEP or DISCARD.
      If fewer than 3 survive triage, bypass and keep all retrieved chunks.
   3. Return a partial state dict — never the full AgentState.
@@ -72,9 +74,23 @@ def source_node(state: AgentState) -> dict:
     t0 = time.monotonic()
     query = state["query"]
 
+    # ── Bias retrieval query with conversation context if present ─────────────
+    # Append the context after the query so BM25 keyword matching and dense
+    # retrieval both see the prior turn's vocabulary. The original query is
+    # preserved unchanged in state["query"] — this enriched string is only
+    # used for the retrieve() call, not stored anywhere.
+    conversation_context = state.get("conversation_context", "")
+    retrieval_query = query
+    if conversation_context:
+        retrieval_query = f"{query}\n\n{conversation_context}"
+        log.info(
+            "source_agent: conversation_context present (%d chars) — enriching retrieval query",
+            len(conversation_context),
+        )
+
     try:
         # ── 1. Retrieve ───────────────────────────────────────────────────────
-        raw: list[dict] = retrieve(query=query, top_k=20, filters={})
+        raw: list[dict] = retrieve(query=retrieval_query, top_k=20, filters={})
 
         # Cast to RetrievedChunk — retrieve() guarantees these fields exist
         retrieved: list[RetrievedChunk] = [
@@ -91,7 +107,11 @@ def source_node(state: AgentState) -> dict:
             for r in raw
         ]
 
-        # ── 2. Triage ─────────────────────────────────────────────────────────
+        # ── 2. Triage — use original query only, not enriched query ──────────
+        # Triage is a relevance-to-the-current-question check, not a
+        # relevance-to-the-whole-conversation check. Passing the enriched
+        # query here would bias triage toward chunks that mention prior
+        # turn content, which is wrong.
         kept: list[RetrievedChunk] = [
             chunk for chunk in retrieved if _triage_chunk(query, chunk)
         ]
@@ -128,10 +148,11 @@ def source_node(state: AgentState) -> dict:
 
         # ── 4. Build debug entry ──────────────────────────────────────────────
         duration_ms = round((time.monotonic() - t0) * 1000)
-        bypass_note = " [triage bypassed]" if bypass_used else ""
+        bypass_note   = " [triage bypassed]" if bypass_used else ""
+        context_note  = f" [context={len(conversation_context)}chars]" if conversation_context else ""
         debug_entry = (
             f"source_agent: retrieved={len(retrieved)}, kept={len(kept)}, "
-            f"query_chars={len(query)}, duration_ms={duration_ms}{bypass_note}"
+            f"query_chars={len(query)}, duration_ms={duration_ms}{bypass_note}{context_note}"
         )
 
         return {

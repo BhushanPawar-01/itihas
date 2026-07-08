@@ -4,6 +4,11 @@ LangGraph node — Narrative Agent.
 Synthesises validated outputs from political, military, and critique agents into
 a four-section human-readable response with citations and confidence scores.
 
+If conversation_context is present in state, it is prepended to the prompt so
+the synthesis reflects what was already established in prior turns — the agent
+can avoid re-explaining settled facts and instead focus on what the current
+query adds.
+
 LLM calls: call() only; llm_client defaults agents to OpenAI.
 Runs only after critique_passed = True (enforced by graph edge; asserted here).
 """
@@ -22,7 +27,7 @@ log = get_logger(__name__)
 
 SYSTEM = (
     "You are a historian synthesising a multi-perspective analysis of Indian "
-    "military and political history 1600–1947. "
+    "military and political history 1600-1947. "
     "Write a structured response with exactly these four section headers "
     "(use them verbatim as markdown headings):\n"
     "## Political Reality\n"
@@ -31,25 +36,16 @@ SYSTEM = (
     "## Confidence Assessment\n"
     "Cite sources by doc_id in square brackets, e.g. [ia_trial_19451107_001]. "
     "Be specific. State what the evidence shows. "
-    "Reserve hedging for the Confidence Assessment section only."
+    "Reserve hedging for the Confidence Assessment section only.\n"
+    "If a conversation context is provided, do not re-explain facts already "
+    "established in prior turns -- build on them and focus on what the current "
+    "query adds."
 )
 
 
 def narrative_node(state: AgentState) -> dict:
-    """
-    LangGraph node — returns partial state update dict.
-
-    Return keys (success):
-        narrative_output : AgentOutput
-        debug_log        : list[str]
-
-    Return keys (failure):
-        error     : str
-        debug_log : list[str]
-    """
     t0 = time.monotonic()
 
-    # ── 1. Guard: critique must have passed ───────────────────────────────────
     if not state.get("critique_passed"):
         msg = "narrative_node called before critique passed"
         log.error(msg)
@@ -59,8 +55,7 @@ def narrative_node(state: AgentState) -> dict:
         }
 
     try:
-        # ── 2. Parse confidence from critique_output ──────────────────────────
-        confidence = 0.7  # fallback
+        confidence = 0.7
         try:
             critique_content = state["critique_output"]["content"]
             confidence = float(json.loads(critique_content)["confidence"])
@@ -70,15 +65,23 @@ def narrative_node(state: AgentState) -> dict:
                 confidence,
             )
 
-        # ── 3. Collect citations — union, deduplicated, sorted ────────────────
         all_ids = sorted(set(
             state["source_output"]["citations"] +
             state["political_output"]["citations"] +
             state["military_output"]["citations"]
         ))
 
-        # ── 4. Build prompt ───────────────────────────────────────────────────
+        conversation_context = state.get("conversation_context", "")
+        ctx_section = ""
+        if conversation_context:
+            ctx_section = f"{conversation_context}\n\n"
+            log.info(
+                "narrative_agent: injecting conversation_context (%d chars)",
+                len(conversation_context),
+            )
+
         user_content = (
+            f"{ctx_section}"
             f"Query: {state['query']}\n\n"
             f"Political Analysis:\n{state['political_output']['content']}\n\n"
             f"Military Analysis:\n{state['military_output']['content']}\n\n"
@@ -87,10 +90,8 @@ def narrative_node(state: AgentState) -> dict:
         )
         prompt = f"{SYSTEM}\n\n{user_content}"
 
-        # ── 5. LLM call — llm_client default backend for synthesis ────────────
         response = call(prompt, max_tokens=1500, temperature=0.2)
 
-        # ── 6. Build output ───────────────────────────────────────────────────
         output: AgentOutput = {
             "agent_name": "narrative",
             "content":    response,
@@ -98,12 +99,13 @@ def narrative_node(state: AgentState) -> dict:
             "citations":  all_ids,
         }
 
-        duration_ms = round((time.monotonic() - t0) * 1000)
+        duration_ms  = round((time.monotonic() - t0) * 1000)
+        context_note = f" [ctx={len(conversation_context)}chars]" if conversation_context else ""
         return {
             "narrative_output": output,
             "debug_log": [
                 f"narrative_agent: response_chars={len(response)}, "
-                f"citations={len(all_ids)}, duration_ms={duration_ms}"
+                f"citations={len(all_ids)}, duration_ms={duration_ms}{context_note}"
             ],
         }
 

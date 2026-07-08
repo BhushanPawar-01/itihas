@@ -2,13 +2,15 @@
  * QueryPanel — query input, submit button, loading state, error display.
  *
  * Props:
- *   onResult(result)         — called with the full QueryResponse on success
+ *   onResult(result)             — called with the full QueryResponse on success
  *   isLoading: bool
  *   setIsLoading(bool)
  *   error: string|null
  *   setError(string|null)
- *   onDebateStep(step)       — called with each SSE event from /query/stream
- *                              while the query is in flight; feeds DebateFeed
+ *   onDebateStep(step)           — called with each SSE event from /query/stream
+ *                                  while the query is in flight; feeds DebateFeed
+ *   conversationHistory: Array   — ordered list of prior completed turns to send
+ *                                  with every request; managed by App.jsx
  */
 import { useRef, useState } from 'react'
 import { submitQuery, streamQuery } from '../api/client'
@@ -20,11 +22,12 @@ export default function QueryPanel({
   error,
   setError,
   onDebateStep,
+  conversationHistory = [],
 }) {
-  const [query, setQuery]             = useState('')
+  const [query, setQuery]               = useState('')
   const [includeDebug, setIncludeDebug] = useState(false)
-  const submittingRef                 = useRef(false)
-  const abortRef                      = useRef(null)   // AbortController for the stream
+  const submittingRef                   = useRef(false)
+  const abortRef                        = useRef(null)
 
   async function handleSubmit() {
     if (!query.trim() || isLoading || submittingRef.current) return
@@ -32,18 +35,11 @@ export default function QueryPanel({
     setIsLoading(true)
     setError(null)
 
-    // Abort any previous in-flight stream
     abortRef.current?.abort()
-    const controller  = new AbortController()
-    abortRef.current  = controller
+    const controller = new AbortController()
+    abortRef.current = controller
 
     try {
-      // Run stream and blocking query concurrently.
-      // streamQuery feeds DebateFeed in real time.
-      // submitQuery returns the final QueryResponse.
-      // We don't await streamQuery — it resolves when the backend sends "done",
-      // but the final result comes from submitQuery. If streamQuery errors it's
-      // non-fatal (the blocking result still arrives).
       const streamPromise = streamQuery(
         query.trim(),
         (event) => {
@@ -62,10 +58,9 @@ export default function QueryPanel({
         // Stream errors are non-fatal — blocking result still comes through
       })
 
-      const result = await submitQuery(query.trim(), includeDebug)
-      onResult(result)
+      const result = await submitQuery(query.trim(), includeDebug, conversationHistory)
+      onResult(result, query.trim())   // pass query string so App can append to history
 
-      // Let stream finish cleanly in the background
       await streamPromise
     } catch (err) {
       setError(err.message)

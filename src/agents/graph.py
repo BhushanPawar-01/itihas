@@ -1,10 +1,15 @@
 """
 LangGraph StateGraph — wires all five nodes and exposes two public entry points:
 
-  run_query(query)            — blocking, returns final AgentState
+  run_query(query, history)   — blocking, returns final AgentState.
+                                history is an optional list of prior turn dicts
+                                (see src/agents/memory.py for the shape).
   run_query_streaming(query)  — generator, yields SSE-formatted strings as each
                                 node completes; used by the streaming endpoint in
-                                backend/routes/query.py
+                                backend/routes/query.py. Streaming does not carry
+                                conversation history — the DebateFeed it feeds is
+                                live visual feedback only; the final answer with
+                                full context comes from the blocking run_query call.
 
 Topology (FIXED):
   START → source → political ──┐
@@ -28,6 +33,7 @@ import uuid
 from langgraph.graph import END, StateGraph
 
 from src.agents.state import AgentState
+from src.agents.memory          import build_conversation_context
 from src.agents.source_agent    import source_node
 from src.agents.political_agent import political_node
 from src.agents.military_agent  import military_node
@@ -72,7 +78,7 @@ def route_after_critique(state: AgentState) -> str:
         return "end_with_error"
     if state.get("critique_passed"):
         return "narrative"
-    return "rebuttal_fan_out"   # ← was "political"; now routes to fan-out junction
+    return "rebuttal_fan_out"
 
 
 # ── Graph builder ──────────────────────────────────────────────────────────────
@@ -86,7 +92,7 @@ def build_graph():
     graph.add_node("military",         military_node)
     graph.add_node("critique",         critique_node)
     graph.add_node("narrative",        narrative_node)
-    graph.add_node("rebuttal_fan_out", rebuttal_fan_out_node)   # ← new
+    graph.add_node("rebuttal_fan_out", rebuttal_fan_out_node)
 
     # ── Entry ──────────────────────────────────────────────────────────────────
     graph.set_entry_point("source")
@@ -112,7 +118,7 @@ def build_graph():
         route_after_critique,
         {
             "narrative":        "narrative",
-            "rebuttal_fan_out": "rebuttal_fan_out",   # ← replaces direct "political"
+            "rebuttal_fan_out": "rebuttal_fan_out",
             "end_with_error":   END,
         },
     )
@@ -127,12 +133,13 @@ def build_graph():
     return graph.compile()
 
 
-# ── Shared initial state builder ───────────────────────────────────────────────
+# ── Initial state builder ──────────────────────────────────────────────────────
 
-def _initial_state(query: str) -> AgentState:
+def _initial_state(query: str, conversation_context: str = "") -> AgentState:
     return {
         "query":               query,
         "query_id":            str(uuid.uuid4()),
+        "conversation_context": conversation_context,
         "retrieved_chunks":    [],
         "source_output":       None,
         "political_output":    None,
@@ -149,13 +156,22 @@ def _initial_state(query: str) -> AgentState:
 
 # ── Public entry points ────────────────────────────────────────────────────────
 
-def run_query(query: str) -> AgentState:
+def run_query(query: str, history: list[dict] | None = None) -> AgentState:
     """
     Blocking entry point — runs the full graph and returns final AgentState.
-    query.py POST endpoint uses this.
+    Used by POST /query in backend/routes/query.py.
+
+    Args:
+        query:   The current user query string.
+        history: Optional list of prior completed turns, each shaped as:
+                 {"query": str, "narrative": str, "source_chunks": list[dict] | None}
+                 When provided, conversation context is built from this history
+                 and injected into all agent prompts. Empty list or None both
+                 behave as "no prior context" (first query in a session).
     """
+    conversation_context = build_conversation_context(history or [])
     app = build_graph()
-    return app.invoke(_initial_state(query))
+    return app.invoke(_initial_state(query, conversation_context))
 
 
 def run_query_streaming(query: str):
@@ -163,8 +179,12 @@ def run_query_streaming(query: str):
     Generator — yields SSE-formatted strings as each node completes.
     Used by POST /query/stream in backend/routes/query.py.
 
+    Streaming does not carry conversation history. The stream feeds the
+    DebateFeed (live visual feedback only). The final contextual answer
+    is delivered by the concurrent run_query() blocking call.
+
     Each yielded value is a complete SSE message:
-        data: <json>\n\n
+        data: <json>\\n\\n
 
     Event payload shape:
         {
@@ -177,7 +197,7 @@ def run_query_streaming(query: str):
         }
     """
     app   = build_graph()
-    state = _initial_state(query)
+    state = _initial_state(query)  # no history — stream is for live feedback only
 
     try:
         for chunk in app.stream(state):
@@ -197,7 +217,6 @@ def run_query_streaming(query: str):
                         content = raw[:400] + ("…" if len(raw) > 400 else "")
                         break
 
-                # Rebuttal rounds: political or military firing after loop > 0
                 event_type = "node_complete"
                 if node_name in ("political", "military") and loop > 0:
                     event_type = "rebuttal"

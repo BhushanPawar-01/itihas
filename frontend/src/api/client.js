@@ -11,14 +11,21 @@ const BASE = '/api/v1'
  *
  * @param {string}  query
  * @param {boolean} includeDebugLog
+ * @param {Array}   conversationHistory  — ordered list of prior completed turns.
+ *                  Each entry: { query: string, narrative: string, source_chunks: Array|null }
+ *                  Pass [] (default) for the first query in a session.
  * @returns {Promise<Object>}
  * @throws {Error}
  */
-export async function submitQuery(query, includeDebugLog = false) {
+export async function submitQuery(query, includeDebugLog = false, conversationHistory = []) {
   const response = await fetch(`${BASE}/query`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ query, include_debug_log: includeDebugLog }),
+    body:    JSON.stringify({
+      query,
+      include_debug_log:    includeDebugLog,
+      conversation_history: conversationHistory,
+    }),
   })
 
   if (!response.ok) {
@@ -36,14 +43,18 @@ export async function submitQuery(query, includeDebugLog = false) {
  * Calls onEvent(parsedPayload) for each event received.
  * Resolves when the stream closes (type="done" or type="error").
  *
+ * Does NOT accept conversationHistory — the stream feeds the DebateFeed
+ * (live visual feedback only). The final contextual answer comes from
+ * the concurrent submitQuery() call.
+ *
  * Event payload shapes (see backend/routes/query.py for full spec):
  *   { type: "node_complete" | "rebuttal", agent, label, loop, content, error }
  *   { type: "done" }
  *   { type: "error", content, traceback }
  *
- * @param {string}   query
- * @param {Function} onEvent  — called with each parsed event object
- * @param {AbortSignal} [signal] — optional AbortSignal to cancel the stream
+ * @param {string}      query
+ * @param {Function}    onEvent    — called with each parsed event object
+ * @param {AbortSignal} [signal]   — optional AbortSignal to cancel the stream
  * @returns {Promise<void>}
  */
 export async function streamQuery(query, onEvent, signal) {

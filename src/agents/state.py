@@ -1,7 +1,7 @@
 """
 Shared state schema for all LangGraph agents.
 All agents read from and write to AgentState. No field is added anywhere
-else update this file first, then the agent that needs it.
+else — update this file first, then the agent that needs it.
 """
 
 from __future__ import annotations
@@ -36,6 +36,13 @@ class AgentState(TypedDict):
     # ── Input ────────────────────────────────────────────────────────────────
     query: str       # original user query, never mutated
     query_id: str    # uuid4 string, set by orchestrator on entry
+
+    # ── Conversational memory ─────────────────────────────────────────────────
+    # Built by memory.build_conversation_context() from prior turns.
+    # Empty string on the first turn (no prior context).
+    # Injected into agent prompts as a "Conversation so far:" prefix.
+    # Never persisted — lives only for the duration of this request.
+    conversation_context: str
 
     # ── Retrieval ─────────────────────────────────────────────────────────────
     retrieved_chunks: list[RetrievedChunk]  # set by source agent, read by all others
