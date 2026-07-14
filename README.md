@@ -110,7 +110,7 @@ The workflow in [.github/workflows/sync_to_hf.yml](.github/workflows/sync_to_hf.
 
 ### Hugging Face Space setup
 
-In your Hugging Face Space settings, configure:
+In your Hugging Face Space settings, configure: 
 
 - runtime environment variables for the application
 - the required secrets such as `HF_API_TOKEN` and `DB_URL`
