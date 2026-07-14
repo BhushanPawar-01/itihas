@@ -102,11 +102,11 @@ The application reads configuration from environment variables and the settings 
 
 ## Deployment
 
-This repository is configured for deployment to Hugging Face Spaces using GitHub Actions.
+This repository is configured for deployment to Hugging Face Spaces using GitHub Actions. But with recent policy change, Hugging Face has moved docker to paid only option. Thus currently temporarly deployed on [render.com](https://render.com) until a good alternative is found.
 
 ### GitHub → Hugging Face Spaces
 
-The workflow in [.github/workflows/sync_to_hf.yml](.github/workflows/sync_to_hf.yml) automatically syncs the `main` branch to your Hugging Face Space on every push.
+The workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) automatically syncs the `main` branch to your Hugging Face Space on every push.
 
 ### Hugging Face Space setup
 
