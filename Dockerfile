@@ -11,7 +11,7 @@ RUN npm run build
 # ── Stage 2: Python runtime ───────────────────────────────────────────────────
 FROM python:3.11-slim
 
-# HuggingFace Spaces runs containers as a non-root user (UID 1000).
+# Run as non-root user
 RUN useradd -m -u 1000 appuser
 
 WORKDIR /app
@@ -28,8 +28,8 @@ COPY config/    ./config/
 # Copy built frontend from Stage 1
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
-# HF Spaces free tier expects port 7860
-EXPOSE 7860
+# Render injects PORT=10000 by default; expose it here
+EXPOSE 10000
 
 USER appuser
 
@@ -37,5 +37,5 @@ USER appuser
 # Multiple workers would each load it separately — wasted RAM on free tier for no gain at demo scale.
 CMD ["uvicorn", "backend.main:app", \
      "--host", "0.0.0.0", \
-     "--port", "7860", \
+     "--port", "10000", \
      "--workers", "1"]
